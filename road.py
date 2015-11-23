@@ -13,19 +13,18 @@ class Road(object):
 		self.nodes.append((120,50))
 		self.nodes.append((250,300))
 		self.nodes.append((10,220))
-		self.ExitNodes.append((10,10),1)
-		self.EntranceNodes.append((100,100),2)
+		self.ExitNodes.append(((10,10),1))
+		self.EntranceNodes.append(((100,100),2))
 		#TEMP
 		self.LoadNodesFromFile(text_Name)
 		self.nNodes=len(self.nodes)
-		print self.nNodes
 
 	def Draw(self, screen, pygame):
 		pygame.draw.lines(screen,(125,125,125),True,self.nodes,10)
 	
 	
 	def LoadNodesFromFile(self, text_Name):
-		print self.nodes
+		print "Har ska alla noder laddas in fran text filen"
 
 	def GetNextNode(self, current_Node,exit_Probability):
 		if (random.random()< exit_Probability):
@@ -37,9 +36,9 @@ class Road(object):
 	def GetNodePosition(self, nNode):
 		if nNode[1]==0:
 			return self.nodes[nNode]
-		else if nNodes[1]==1:
+		elif nNodes[1]==1:
 			return self.ExitNodes[nNode][0]
-		else if nNodes[1]==2:
+		elif nNodes[1]==2:
 			return self.EntranceNodes[nNodes][0]
 			
 	def FindConnectedExit(self, nNode):
