@@ -1,35 +1,43 @@
 #!/usr/bin/env python2
-import sys, pygame
+import sys
+import pygame
 from road import Road
 
-pygame.init()
-size = width, height = 620, 440
+BLACK = (0, 0, 0)
 
-screen = pygame.display.set_mode(size)
-time_interval = 0.5
 
-car_list = []
-car_Road = Road("something")
+class TraficSimulator():
+
+    def __init__(self, map_file):
+        pygame.init()
+        size = width, height = 620, 540
+
+        self.screen = pygame.display.set_mode(size)
+        self.time_interval = 0.5
+
+        self.car_list = []
+        self.car_Road = Road(map_file)
+
+    def start_simulation(self):
+        while 1:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+            for car in self.car_list:
+                car.update(self.time_interval)
+            self.draw()
+
+    def draw(self):
+        self.screen.fill(BLACK)
+        self.car_Road.Draw(self.screen, pygame)
+        pygame.display.flip()
 
 #def init_cars():
 
-	# TODO - add some cars to the car list
+    # TODO - add some cars to the car list
 
-#def init_road():
-	#car_Road = Road()
 
-def mainloop():
-	while 1:
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT: sys.exit()
-		screen.fill((0,0,0))
-		car_Road.Draw(screen,pygame)
-		pygame.display.flip()
-		for car in car_list:
-			car.update(time_interval)
-			
 
 if __name__ == '__main__':
-	#init_cars()
-	#init_road()
-	mainloop()
+    ts = TraficSimulator("map.data")
+    ts.start_simulation()
