@@ -32,19 +32,22 @@ class Road(object):
         f.close()
 
     def GetNextNode(self, current_Node,exit_Probability):
-        if (random.random()< exit_Probability):
-            exitNode=FindConnectedExit(self,current_Node)
-            if exitNode[0]!=-1:
-                return exitNode
-        return ((current_Node[0]+1)%self.nNodes,0)
+        # TODO - implement logic for exits and starts
+        #if (random.random()< exit_Probability):
+            #exitNode = self.FindConnectedExit(current_Node)
+            #if exitNode[0]!=-1:
+                #return exitNode
+        return (current_Node+1)%self.nNodes
 
     def GetNodePosition(self, nNode):
-        if nNode[1]==0:
-            return self.nodes[nNode]
-        elif nNodes[1]==1:
-            return self.ExitNodes[nNode][0]
-        elif nNodes[1]==2:
-            return self.EntranceNodes[nNodes][0]
+        # TODO - make it work with exits and starts
+        #if nNode[1]==0:
+            #return self.nodes[nNode]
+        #elif nNodes[1]==1:
+            #return self.ExitNodes[nNode][0]
+        #elif nNodes[1]==2:
+            #return self.EntranceNodes[nNodes][0]
+        return self.nodes[nNode]
 
     def FindConnectedExit(self, nNode):
         for x in range(0,len(self.ExitNodes)):

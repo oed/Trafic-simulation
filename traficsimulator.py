@@ -2,6 +2,7 @@
 import sys
 import pygame
 from road import Road
+from car import Car
 
 BLACK = (0, 0, 0)
 
@@ -10,13 +11,14 @@ class TraficSimulator():
 
     def __init__(self, map_file):
         pygame.init()
-        size = width, height = 620, 540
+        size = 620, 540
 
         self.screen = pygame.display.set_mode(size)
-        self.time_interval = 0.5
+        self.time_interval = 0.1
 
+        self.road = Road(map_file)
         self.car_list = []
-        self.car_Road = Road(map_file)
+        self.car_list.append(Car(0, self.road))
 
     def start_simulation(self):
         while 1:
@@ -24,18 +26,16 @@ class TraficSimulator():
                 if event.type == pygame.QUIT:
                     sys.exit()
             for car in self.car_list:
-                car.update(self.time_interval)
+                car.update(self.car_list, self.time_interval)
             self.draw()
+            pygame.time.wait(int(self.time_interval * 1000))
 
     def draw(self):
         self.screen.fill(BLACK)
-        self.car_Road.Draw(self.screen, pygame)
+        self.road.Draw(self.screen, pygame)
+        for car in self.car_list:
+            car.draw(self.screen, pygame)
         pygame.display.flip()
-
-#def init_cars():
-
-    # TODO - add some cars to the car list
-
 
 
 if __name__ == '__main__':
