@@ -28,7 +28,8 @@ class Road(object):
 
     def LoadNodesFromFile(self, text_Name):
         f = open(text_Name)
-        self.nodes = pickle.load(f)
+        loadFile = pickle.load(f)
+        print loadFile
         f.close()
 
     def GetNextNode(self, current_Node,exit_Probability):
