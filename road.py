@@ -4,33 +4,23 @@ import pickle
 
 class Road(object):
 
-    nNodes=0
 
     def __init__(self, text_Name):
-        self.nodes=[]
-        self.ExitNodes=[]
-        self.EntranceNodes=[]
-        #TEMP
-        #self.nodes.append((1,1))
-        #self.nodes.append((100,100))
-        #self.nodes.append((120,50))
-        #self.nodes.append((250,300))
-        #self.nodes.append((10,220))
-        self.ExitNodes.append(((10,10),1))
-        self.EntranceNodes.append(((100,100),2))
-        #TEMP
         self.LoadNodesFromFile(text_Name)
-        self.nNodes=len(self.nodes)
 
-    def Draw(self, screen, pygame):
-        pygame.draw.lines(screen,(125,125,125),True,self.nodes,10)
+	def Draw(self, screen, pygame):
+		self.DrawList(screen,pygame,roads['Main'])
+		self.DrawList(screen,pygame,[x[0] for x in roads['Start']])
+		self.DrawList(screen,pygame,[x[0] for x in roads['End']])
 
+	def DrawList(self,screen,pygame,node_List):
+		pygame.draw.lines(screen,(125,125,125),True,node_List,10)
 
     def LoadNodesFromFile(self, text_Name):
-        f = open(text_Name)
-        loadFile = pickle.load(f)
-        print loadFile
-        f.close()
+		f = open(text_Name)
+		self.roads = pickle.load(f)
+		self.nNodes=len(self.roads['Main'])
+		f.close()
 
     def GetNextNode(self, current_Node,exit_Probability):
         # TODO - implement logic for exits and starts
@@ -48,7 +38,7 @@ class Road(object):
             #return self.ExitNodes[nNode][0]
         #elif nNodes[1]==2:
             #return self.EntranceNodes[nNodes][0]
-        return self.nodes[nNode]
+        return self.roads['Main'][nNode]
 
     def FindConnectedExit(self, nNode):
         for x in range(0,len(self.ExitNodes)):

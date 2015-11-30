@@ -19,9 +19,6 @@ roads['Start'] = []
 roads['End'] = []
 
 state = 0;
-start_list = []
-slut_list = []
-node_list = []
 draw1_list = []
 draw2_list = []
 
