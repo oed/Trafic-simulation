@@ -32,25 +32,12 @@ class Car:
         if self.velocity < max_velocity:
             acceleration = self.acceleration
 
-        for car in cars: #Loop over all cars, but should exclude the self
+        if self.check_obstacles(cars):
+            acceleration = -self.acceleration
 
-            distance = utils.calc_distance(self.position, car.position)
-            if distance == 0:
-                continue
-            elif distance <= range_of_sight:
-                print "I can see another car"
-                acceleration = -self.acceleration
-
-        print self.car_number
         self.velocity = self.velocity + acceleration*delta_t
 
-        next_pos = self.road.GetNodePosition(self.nextNode)
-        if utils.calc_distance(self.position, next_pos) < self.velocity: #We arrive at the next node
-            self.currentNode = self.nextNode
-            self.visitedNodes.append(self.currentNode)
-            self.nextNode = self.road.GetNextNode(self.currentNode, exit_probability)
-            self.direction = self.get_direction()
-            #self.position = self.road.GetNodePosition(self.currentNode)
+        self.update_next_node()
 
         #else:
             #distanceTraversed = [x *self.velocity*delta_t for x in self.position ]
@@ -62,6 +49,25 @@ class Car:
 
             #Adjust the acceleration & velocity accordingly
             #Also check that the car doesn't react to itself as another car
+
+    def check_obstacles(self, cars):
+        for car in cars:
+            distance = utils.calc_distance(self.position, car.position)
+            if distance == 0:
+                # It's our car
+                continue
+            elif distance <= range_of_sight:
+                print "I can see another car"
+                return True
+        return False
+
+    def update_next_node(self):
+        next_pos = self.road.GetNodePosition(self.nextNode)
+        if utils.calc_distance(self.position, next_pos) < self.velocity/2: #We arrive at the next node
+            self.currentNode = self.nextNode
+            self.visitedNodes.append(self.currentNode)
+            self.nextNode = self.road.GetNextNode(self.currentNode, exit_probability)
+            self.direction = self.get_direction()
 
     def get_direction(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
