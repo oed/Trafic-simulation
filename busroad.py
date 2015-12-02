@@ -2,12 +2,21 @@ import pygame
 import random
 import pickle
 
-
+def LoadNodesFromFile(text_Name):
+	f = open(text_Name)
+	loadedRoads = pickle.load(f)
+	f.close()
+	roads = []
+	print loadedRoads
+	for x in range(0,len(loadedRoads['Start'])):
+		roads.append(BusRoad({loadedRoads['Start'][x],loadedRoads['End'][x]}))
+	return roads
 
 class BusRoad(object):
 
-	def __init__(self, text_Name):
-		self.LoadNodesFromFile(text_Name)
+	def __init__(self, roads):
+		self.roads = roads
+		print self.roads
 
 	def Draw(self, screen, pygame):
 		self.DrawNodeLines(screen,pygame,self.roads['Start'],(0,255,0))
@@ -15,13 +24,6 @@ class BusRoad(object):
 	
 	def DrawList(self,screen,pygame,node_List,color):
 		pygame.draw.lines(screen,color,False,node_List,10)
-
-	def LoadNodesFromFile(self, text_Name):
-		f = open(text_Name)
-		self.busroads = pickle.load(f)
-		self.nEntrances=len(self.roads['Start'])
-		self.nExits=len(self.roads['End'])
-		f.close()
 
 	def GetNextNode(self, current_Node,exit_Probability):
 		if (current_Node[1]==0):

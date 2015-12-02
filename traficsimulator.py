@@ -3,6 +3,8 @@ import sys
 import pygame
 from road import Road
 from car import Car
+from busroad import BusRoad
+import busroad
 
 BLACK = (0, 0, 0)
 
@@ -15,13 +17,13 @@ class TraficSimulator():
 
         self.screen = pygame.display.set_mode(size)
         self.time_interval = 0.1
-
         self.road = Road(map_file)
         self.car_list = []
         self.bus_list = []
-
-
-
+        self.busroad_list=busroad.LoadNodesFromFile(map_file)
+        print self.busroad_list
+        print len(self.busroad_list)
+		
     def start_simulation(self):
         while 1:
             if Car.car_number < 100:
