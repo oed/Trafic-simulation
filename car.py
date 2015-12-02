@@ -25,13 +25,13 @@ class Car:
 
         if self.velocity < self.max_velocity:
             acceleration = self.acceleration
-        
+
         if self.check_obstacles(cars):
             #velocity = min_velocity
             acceleration = -self.acceleration
 
         self.velocity = self.velocity + acceleration*delta_t
-        
+
         if self.velocity < min_velocity:
             self.velocity = min_velocity
 
@@ -90,6 +90,15 @@ class Car:
         return utils.calc_angle(self.position, next_pos)
 
     def draw(self, screen, pygame):
-        position = (int(self.position[0]), int(self.position[1]))
-        pygame.draw.circle(screen, (255, 255, 0), position, 5)
+        positions = [self.rotate_pos(3, 2),
+                     self.rotate_pos(3, -2),
+                     self.rotate_pos(-3, -2),
+                     self.rotate_pos(-3, 2)]
+        pygame.draw.polygon(screen, (255, 255, 0), positions)
+
+    def rotate_pos(self, xDiff, yDiff):
+        x = xDiff * math.cos(self.direction) - yDiff * math.sin(self.direction)
+        y = xDiff * math.sin(self.direction) + yDiff * math.cos(self.direction)
+
+        return (self.position[0] + x, self.position[1] + y)
 
