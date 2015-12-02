@@ -4,10 +4,10 @@ import utils
 
 max_velocity = 5 #Class variable shared by all instances
 min_velocity = 0
-max_acceleration = 2
+max_acceleration = 20
 exit_probability = 0 #Set to other then 0 when Active flag is in play
-range_of_sight = 40
-vision_angle = math.pi
+range_of_sight = 25
+vision_angle = math.pi/4
 
 
 class Car:
@@ -21,7 +21,8 @@ class Car:
         self.position = self.road.GetNodePosition(self.startNode)
         self.visitedNodes = [self.startNode]
         self.velocity = max_velocity*random.random()
-        self.acceleration = max_acceleration*random.random()
+        self.max_velocity = max_velocity
+        self.acceleration = max_acceleration
         self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
         self.direction = self.get_direction()
         self.car_number = Car.car_number
@@ -32,17 +33,17 @@ class Car:
 
         acceleration = 0
 
-        if self.velocity < max_velocity:
+        if self.velocity < self.max_velocity:
             acceleration = self.acceleration
-        if self.car_number == 0 and self.velocity < max_velocity + 3:
-            acceleration = self.acceleration
-
+        
         if self.check_obstacles(cars):
+            #velocity = min_velocity
             acceleration = -self.acceleration
 
         self.velocity = self.velocity + acceleration*delta_t
+        
         if self.velocity < min_velocity:
-            self.velocity = 0
+            self.velocity = min_velocity
 
         self.update_next_node()
 
@@ -66,12 +67,13 @@ class Car:
             angle = abs(utils.calc_angle(self.position, car.position) - self.direction)
             if distance <= range_of_sight and angle < vision_angle:
                 print "Car %d can see another car at angle %d" % (self.car_number, angle)
+
                 return True
         return False
 
     def update_next_node(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
-        if utils.calc_distance(self.position, next_pos) < self.velocity/2: #We arrive at the next node
+        if utils.calc_distance(self.position, next_pos) < self.velocity: #We arrive at the next node
             self.currentNode = self.nextNode
             if self.currentNode == -1:
                 self.Active = 0

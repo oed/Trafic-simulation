@@ -2,6 +2,8 @@ import pygame
 import random
 import pickle
 
+
+
 class Road(object):
 
 	def __init__(self, text_Name):
@@ -18,8 +20,7 @@ class Road(object):
 	def DrawNodeLines(self,screen,pygame,node_List_With_Index,node_List,color):
 		for iNode in range(0,len(node_List_With_Index)):
 			pygame.draw.line(screen,color,node_List_With_Index[iNode][0],node_List[node_List_With_Index[iNode][1]],5)
-		
-		
+
 	def LoadNodesFromFile(self, text_Name):
 		f = open(text_Name)
 		self.roads = pickle.load(f)
