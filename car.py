@@ -3,9 +3,11 @@ import math
 import utils
 
 max_velocity = 5 #Class variable shared by all instances
+min_velocity = 0
 max_acceleration = 2
-range_of_sight = 20
 exit_probability = 0 #Set to other then 0 when Active flag is in play
+range_of_sight = 40
+vision_angle = math.pi
 
 
 class Car:
@@ -32,11 +34,15 @@ class Car:
 
         if self.velocity < max_velocity:
             acceleration = self.acceleration
+        if self.car_number == 0 and self.velocity < max_velocity + 3:
+            acceleration = self.acceleration
 
         if self.check_obstacles(cars):
             acceleration = -self.acceleration
 
         self.velocity = self.velocity + acceleration*delta_t
+        if self.velocity < min_velocity:
+            self.velocity = 0
 
         self.update_next_node()
 
@@ -53,12 +59,13 @@ class Car:
 
     def check_obstacles(self, cars):
         for car in cars:
-            distance = utils.calc_distance(self.position, car.position)
-            if distance == 0:
+            if self.position == car.position:
                 # It's our car
                 continue
-            elif distance <= range_of_sight:
-                print "I can see another car"
+            distance = utils.calc_distance(self.position, car.position)
+            angle = abs(utils.calc_angle(self.position, car.position) - self.direction)
+            if distance <= range_of_sight and angle < vision_angle:
+                print "Car %d can see another car at angle %d" % (self.car_number, angle)
                 return True
         return False
 

@@ -34,11 +34,11 @@ class TraficSimulator():
             pygame.time.wait(int(self.time_interval * 1000))
 
     def draw(self):
-		self.screen.fill(BLACK)
-		self.road.Draw(self.screen, pygame)
-		for car in self.car_list:
-			car.draw(self.screen, pygame)
-		pygame.display.flip()
+        self.screen.fill(BLACK)
+        self.road.Draw(self.screen, pygame)
+        for car in self.car_list:
+            car.draw(self.screen, pygame)
+        pygame.display.flip()
 
 
 if __name__ == '__main__':
