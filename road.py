@@ -33,7 +33,7 @@ class Road(object):
 		if (current_Node[1]==1):
 			return (self.roads['Start'][current_Node[0]][1],0)
 		if (current_Node[1]==2):
-			return -1; 
+			return -1;
 		if (random.random()< exit_Probability):
 			exitNode = self.FindConnectedExit(current_Node)
 			if exitNode!=-1:
