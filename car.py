@@ -5,7 +5,7 @@ import utils
 max_velocity = 5 #Class variable shared by all instances
 min_velocity = 0
 max_acceleration = 20
-exit_probability = 0 #Set to other then 0 when Active flag is in play
+exit_probability = 0.25 #Set to other then 0 when Active flag is in play
 range_of_sight = 25
 vision_angle = math.pi/4
 
@@ -16,18 +16,8 @@ class Car:
 
     def __init__(self, road):
         self.road = road
-        self.startNode = (random.randint(0,road.GetNEntrances()-1),1)
-        self.currentNode = self.startNode
-        self.position = self.road.GetNodePosition(self.startNode)
-        self.visitedNodes = [self.startNode]
-        self.velocity = max_velocity*random.random()
-        self.max_velocity = max_velocity
-        self.acceleration = max_acceleration
-        self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
-        self.direction = self.get_direction()
-        self.car_number = Car.car_number
+        self.initializeCar()
         Car.car_number += 1
-        self.Active=1
 
     def update(self, cars, delta_t):
 
@@ -70,15 +60,29 @@ class Car:
 
                 return True
         return False
+		
+    def initializeCar(self):
+        self.startNode = (random.randint(0,self.road.GetNEntrances()-1),1)
+        self.currentNode = self.startNode
+        self.position = self.road.GetNodePosition(self.startNode)
+        self.visitedNodes = [self.startNode]
+        self.velocity = max_velocity*random.random()
+        self.max_velocity = max_velocity
+        self.acceleration = max_acceleration
+        self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
+        self.direction = self.get_direction()
+        self.car_number = Car.car_number
+	
 
     def update_next_node(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
         if utils.calc_distance(self.position, next_pos) < self.velocity: #We arrive at the next node
             self.currentNode = self.nextNode
-            if self.currentNode == -1:
-                self.Active = 0
             self.visitedNodes.append(self.currentNode)
             self.nextNode = self.road.GetNextNode(self.currentNode, exit_probability)
+            if self.nextNode == -1:
+                self.initializeCar()
+                return
             self.direction = self.get_direction()
 
     def get_direction(self):
