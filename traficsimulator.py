@@ -18,12 +18,13 @@ class TraficSimulator():
 
         self.road = Road(map_file)
         self.car_list = []
+        self.bus_list = []
 
 
 
     def start_simulation(self):
         while 1:
-            if Car.car_number < 100: 
+            if Car.car_number < 100:
                 self.car_list.append(Car(self.road))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
