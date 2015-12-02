@@ -5,7 +5,7 @@ import utils
 max_velocity = 5 #Class variable shared by all instances
 max_acceleration = 2
 range_of_sight = 20
-exit_probability = 0
+exit_probability = 1
 
 
 class Car:
@@ -17,12 +17,10 @@ class Car:
         self.road = road
         self.currentNode = self.startNode
         self.position = self.road.GetNodePosition(self.startNode)
-        print self.position
         self.visitedNodes = [self.startNode]
         self.velocity = max_velocity*random.random()
         self.acceleration = max_acceleration*random.random()
         self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
-        print self.nextNode
         self.direction = self.get_direction()
         self.car_number = Car.car_number
         Car.car_number += 1
