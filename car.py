@@ -13,14 +13,16 @@ class Car:
     car_number = 0;
 
     def __init__(self, startNode,road):
-        self.startNode = startNode    # instance variable unique to each instance
+        self.startNode = (startNode,1)    # instance variable unique to each instance
         self.road = road
-        self.currentNode = startNode
-        self.position = self.road.GetNodePosition(startNode)
-        self.visitedNodes = [startNode]
+        self.currentNode = self.startNode
+        self.position = self.road.GetNodePosition(self.startNode)
+        print self.position
+        self.visitedNodes = [self.startNode]
         self.velocity = max_velocity*random.random()
         self.acceleration = max_acceleration*random.random()
-        self.nextNode = self.road.GetNextNode(startNode, exit_probability)
+        self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
+        print self.nextNode
         self.direction = self.get_direction()
         self.car_number = Car.car_number
         Car.car_number += 1
@@ -66,6 +68,7 @@ class Car:
         if utils.calc_distance(self.position, next_pos) < self.velocity/2: #We arrive at the next node
             self.currentNode = self.nextNode
             self.visitedNodes.append(self.currentNode)
+			# If getNextNode return -1, then the car should be destroyed
             self.nextNode = self.road.GetNextNode(self.currentNode, exit_probability)
             self.direction = self.get_direction()
 
