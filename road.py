@@ -38,9 +38,11 @@ class Road(object):
 			if exitNode!=-1:
 				return (exitNode,2)
 		return ((current_Node[0]+1)%self.nNodes,0)
+		
+	def GetNEntrances(self):
+		return self.nEntrances;
 
 	def GetNodePosition(self, nNode):
-        # TODO - make it work with exits and starts
 		if nNode[1]==0:
 			return self.roads['Main'][nNode[0]]
 		elif nNode[1]==1:

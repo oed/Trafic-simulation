@@ -18,7 +18,10 @@ class TraficSimulator():
 
         self.road = Road(map_file)
         self.car_list = []
-        self.car_list.append(Car(0, self.road))
+        self.car_list.append(Car(self.road))
+        self.car_list.append(Car(self.road))
+        self.car_list.append(Car(self.road))
+        self.car_list.append(Car(self.road))
 
     def start_simulation(self):
         while 1:

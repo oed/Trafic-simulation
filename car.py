@@ -5,16 +5,16 @@ import utils
 max_velocity = 5 #Class variable shared by all instances
 max_acceleration = 2
 range_of_sight = 20
-exit_probability = 1
+exit_probability = 0 #Set to other then 0 when Active flag is in play
 
 
 class Car:
 
     car_number = 0;
 
-    def __init__(self, startNode,road):
-        self.startNode = (startNode,1)    # instance variable unique to each instance
+    def __init__(self, road):
         self.road = road
+        self.startNode = (random.randint(0,road.GetNEntrances()-1),1)
         self.currentNode = self.startNode
         self.position = self.road.GetNodePosition(self.startNode)
         self.visitedNodes = [self.startNode]
@@ -24,6 +24,7 @@ class Car:
         self.direction = self.get_direction()
         self.car_number = Car.car_number
         Car.car_number += 1
+        self.Active=1
 
     def update(self, cars, delta_t):
 
@@ -65,8 +66,9 @@ class Car:
         next_pos = self.road.GetNodePosition(self.nextNode)
         if utils.calc_distance(self.position, next_pos) < self.velocity/2: #We arrive at the next node
             self.currentNode = self.nextNode
+            if self.currentNode == -1:
+                self.Active = 0
             self.visitedNodes.append(self.currentNode)
-			# If getNextNode return -1, then the car should be destroyed
             self.nextNode = self.road.GetNextNode(self.currentNode, exit_probability)
             self.direction = self.get_direction()
 
