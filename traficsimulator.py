@@ -11,7 +11,7 @@ BLACK = (0, 0, 0)
 
 class TraficSimulator():
 
-    def __init__(self, map_file):
+    def __init__(self, map_file,bus_map_file):
         pygame.init()
         size = 620, 540
 
@@ -20,9 +20,7 @@ class TraficSimulator():
         self.road = Road(map_file)
         self.car_list = []
         self.bus_list = []
-        self.busroad_list=busroad.LoadNodesFromFile(map_file)
-        print self.busroad_list
-        print len(self.busroad_list)
+        self.busroad_list=busroad.LoadNodesFromFile(bus_map_file)
 		
     def start_simulation(self):
         while 1:
@@ -39,11 +37,13 @@ class TraficSimulator():
     def draw(self):
         self.screen.fill(BLACK)
         self.road.Draw(self.screen, pygame)
+        for busroad in self.busroad_list:
+            busroad.Draw(self.screen,pygame)
         for car in self.car_list:
             car.draw(self.screen, pygame)
         pygame.display.flip()
 
 
 if __name__ == '__main__':
-    ts = TraficSimulator("map.data")
+    ts = TraficSimulator("map.data","busmap.data")
     ts.start_simulation()
