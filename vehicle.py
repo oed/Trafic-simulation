@@ -19,17 +19,14 @@ class Vehicle(object):
         self.road = road
         self.spawn()
         self.number = Vehicle.vehicle_number
+        self.RightOfPassage=0
         Vehicle.vehicle_number += 1
 
     def spawn(self):
-        self.startNode = (random.randint(0, self.road.GetNEntrances()-1), 1)
-        self.currentNode = self.startNode
         self.position = self.road.GetNodePosition(self.startNode)
-        self.visitedNodes = [self.startNode]
         self.velocity = max_velocity*random.random()
         self.max_velocity = max_velocity
         self.acceleration = max_acceleration
-        self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
         self.direction = self.get_direction()
 
     def update(self, vehicles, delta_t):
@@ -38,6 +35,8 @@ class Vehicle(object):
     def check_obstacles(self, vehicles):
         minimumDistance = 1000;
         for vehicle in vehicles:
+            if vehicle.RightOfPassage==0:
+                continue
             if self.position == vehicle.position:
                 # It's our vehicle
                 continue
@@ -45,7 +44,7 @@ class Vehicle(object):
             angle = abs(utils.calc_angle(self.position, vehicle.position)
                         - self.direction)
             if distance <= range_of_sight and angle < vision_angle:
-                stopDistance=utils.calc_angle(distance,angle)-3*1.5
+                stopDistance=utils.calc_stopDistance(distance,angle)-3*1.5
                 if stopDistance<minimumDistance:
                     minimumDistance=stopDistance
         return minimumDistance

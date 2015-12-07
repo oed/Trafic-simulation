@@ -20,6 +20,10 @@ class Car(Vehicle):
         Car.car_number += 1
 
     def spawn(self):
+        self.startNode = (random.randint(0, self.road.GetNEntrances()-1), 1)
+        self.currentNode = self.startNode
+        self.visitedNodes = [self.startNode]
+        self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
         super(Car, self).spawn()
 
     def update(self, vehicles, delta_t):
@@ -98,6 +102,7 @@ class Car(Vehicle):
     def update_next_node(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
         if utils.calc_distance(self.position, next_pos) < self.velocity: #We arrive at the next node
+            self.RightOfPassage=1;
             self.currentNode = self.nextNode
             self.visitedNodes.append(self.currentNode)
             self.nextNode = self.road.GetNextNode(self.currentNode, exit_probability)
