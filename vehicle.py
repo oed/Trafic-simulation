@@ -57,7 +57,7 @@ class Vehicle(object):
             self.nextNode = self.road.GetNextNode(self.currentNode,
                                                   exit_probability)
             if self.nextNode == -1:
-                self.initializeCar()
+                self.spawn()
                 return
             self.direction = self.get_direction()
 
