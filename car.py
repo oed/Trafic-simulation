@@ -1,4 +1,6 @@
 import math
+import utils
+import random
 from vehicle import Vehicle
 
 max_velocity = 7 #Class variable shared by all instances
@@ -27,7 +29,7 @@ class Car(Vehicle):
         if self.velocity < self.max_velocity:
             acceleration = self.acceleration
 
-        distance = self.check_obstacles(cars)
+        distance = self.check_obstacles(vehicles)
         if distance < 1000 and distance > 0:
 
         #if self.check_obstacles(vehicles):
