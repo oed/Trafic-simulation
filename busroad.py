@@ -7,7 +7,7 @@ def LoadNodesFromFile(text_Name):
 	loadedRoads = pickle.load(f)
 	f.close()
 	roads = []
-	print loadedRoads
+	#print loadedRoads
 	for x in range(0,len(loadedRoads['Start'])):
 		roads.append(BusRoad({loadedRoads['Start'][x],loadedRoads['End'][x]}))
 	return roads
@@ -16,7 +16,7 @@ class BusRoad(object):
 
 	def __init__(self, roads):
 		self.roads = roads
-		print self.roads
+		#print self.roads
 
 	def Draw(self, screen, pygame):
 		self.DrawNodeLines(screen,pygame,self.roads['Start'],(0,255,0))

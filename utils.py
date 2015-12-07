@@ -20,6 +20,6 @@ def calc_angle(pos1, pos2):
         angle += math.pi
     return angle
 
-def calc_stopDistance(pos1, pos2):
+def calc_stopDistance(distance, angle):
     """Calculate the stop distance between two positions"""
-    return calc_distance(pos1, pos2)*math.cos(calc_angle(pos1, pos2))
+    return distance*math.cos(angle)

@@ -108,6 +108,7 @@ while 1:
                 pickle.dump(roads, f)
                 f.close()
                 g = open('busmap.data','w')
+                print buses
                 pickle.dump(buses, g)
                 g.close()
                 sys.exit()

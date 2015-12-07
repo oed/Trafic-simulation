@@ -6,8 +6,8 @@ max_velocity = 7 #Class variable shared by all instances
 min_velocity = 0
 max_acceleration = 50
 exit_probability = 0.5 #Set to other then 0 when Active flag is in play
-range_of_sight = 20
-vision_angle = math.pi/6
+range_of_sight = 30
+vision_angle = math.pi/4
 
 
 class Car:
@@ -27,12 +27,14 @@ class Car:
             acceleration = self.acceleration
 
         distance = self.check_obstacles(cars)
-        if distance > 0: 
+        if distance < 1000 and distance > 0:
             #velocity = min_velocity
-            acceleration = (self.velocity*self.velocity)/(2*distance)
-
+            acceleration = -2*(self.velocity*self.velocity)/(distance)
         self.velocity = self.velocity + acceleration*delta_t
 
+        if distance > 0 and distance < 5:
+            self.velocity = 0
+        
         if self.velocity < min_velocity:
             self.velocity = min_velocity
 
@@ -52,10 +54,9 @@ class Car:
     def check_obstacles(self, cars):
         minimumDistance = 1000
         for car in cars:
-            if car.isInEntrance:
-                print car
-                continue
-            elif self.position == car.position:
+            #if car.isInEntrance:
+            #   continue
+            if self.position == car.position:
                 # It's our car
                 continue
             else:
@@ -63,13 +64,13 @@ class Car:
                 angle = abs(utils.calc_angle(self.position, car.position) - self.direction)
                 if distance <= range_of_sight and angle < vision_angle:
                     #print "Car %d can see another car at angle %d" % (self.car_number, angle)
-                    stopDistance = utils.calc_stopDistance(self.position, car.position)
+                    stopDistance = utils.calc_stopDistance(distance, angle) - 3*1.5
                     if stopDistance < minimumDistance:
-                        minimumDistance = stopDistance - 3*1.5 #Three times half the car.
+                        minimumDistance = stopDistance #Three times half the car.
         return minimumDistance
 
     def isInEntrance(self):
-        if len(self.visitedNodes[-1]) == 2:
+        if len(self.visitedNodes[-2][1]) == 1:
             return True
 		
     def initializeCar(self):
@@ -77,7 +78,7 @@ class Car:
         self.currentNode = self.startNode
         self.position = self.road.GetNodePosition(self.startNode)
         self.visitedNodes = [self.startNode]
-        self.velocity = max_velocity*random.random()
+        self.velocity = max_velocity
         self.max_velocity = max_velocity*random.random()
         self.acceleration = max_acceleration
         self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)

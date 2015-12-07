@@ -11,7 +11,7 @@ BLACK = (0, 0, 0)
 
 class TraficSimulator():
 
-    def __init__(self, map_file):
+    def __init__(self, map_file, busmap_file):
         pygame.init()
         size = 620, 540
 
@@ -20,13 +20,13 @@ class TraficSimulator():
         self.road = Road(map_file)
         self.car_list = []
         self.bus_list = []
-        self.busroad_list=busroad.LoadNodesFromFile(map_file)
-        print self.busroad_list
-        print len(self.busroad_list)
+        self.busroad_list=busroad.LoadNodesFromFile(busmap_file)
+        #print self.busroad_list
+        #print len(self.busroad_list)
 		
     def start_simulation(self):
         while 1:
-            if Car.car_number < 100:
+            if Car.car_number < 50:
                 self.car_list.append(Car(self.road))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -45,5 +45,5 @@ class TraficSimulator():
 
 
 if __name__ == '__main__':
-    ts = TraficSimulator("map.data")
+    ts = TraficSimulator("map.data","busmap.data")
     ts.start_simulation()
