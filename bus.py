@@ -30,6 +30,9 @@ class Bus(Vehicle):
         if self.check_obstacles(vehicles):
             acceleration = -self.acceleration
 
+        if self.velocity < 0:
+            self.velocity = 0
+
         self.velocity = self.velocity + acceleration*delta_t
 
         self.update_next_node()

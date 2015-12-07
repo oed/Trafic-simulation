@@ -21,10 +21,10 @@ class TraficSimulator():
         self.car_list = []
         self.bus_list = []
         self.busroad_list=busroad.LoadNodesFromFile(bus_map_file)
-		
+
     def start_simulation(self):
         while 1:
-            if Car.car_number < 100:
+            if Car.car_number < 50:
                 self.car_list.append(Car(self.road))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
