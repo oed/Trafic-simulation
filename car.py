@@ -2,12 +2,12 @@ import random
 import math
 import utils
 
-max_velocity = 5 #Class variable shared by all instances
+max_velocity = 7 #Class variable shared by all instances
 min_velocity = 0
-max_acceleration = 20
-exit_probability = 0.25 #Set to other then 0 when Active flag is in play
-range_of_sight = 25
-vision_angle = math.pi/4
+max_acceleration = 50
+exit_probability = 0.5 #Set to other then 0 when Active flag is in play
+range_of_sight = 20
+vision_angle = math.pi/6
 
 
 class Car:
@@ -26,9 +26,10 @@ class Car:
         if self.velocity < self.max_velocity:
             acceleration = self.acceleration
 
-        if self.check_obstacles(cars):
+        distance = self.check_obstacles(cars)
+        if distance > 0: 
             #velocity = min_velocity
-            acceleration = -self.acceleration
+            acceleration = (self.velocity*self.velocity)/(2*distance)
 
         self.velocity = self.velocity + acceleration*delta_t
 
@@ -49,17 +50,27 @@ class Car:
             #Also check that the car doesn't react to itself as another car
 
     def check_obstacles(self, cars):
+        minimumDistance = 1000
         for car in cars:
-            if self.position == car.position:
+            if car.isInEntrance:
+                print car
+                continue
+            elif self.position == car.position:
                 # It's our car
                 continue
-            distance = utils.calc_distance(self.position, car.position)
-            angle = abs(utils.calc_angle(self.position, car.position) - self.direction)
-            if distance <= range_of_sight and angle < vision_angle:
-                print "Car %d can see another car at angle %d" % (self.car_number, angle)
+            else:
+                distance = utils.calc_distance(self.position, car.position)
+                angle = abs(utils.calc_angle(self.position, car.position) - self.direction)
+                if distance <= range_of_sight and angle < vision_angle:
+                    #print "Car %d can see another car at angle %d" % (self.car_number, angle)
+                    stopDistance = utils.calc_stopDistance(self.position, car.position)
+                    if stopDistance < minimumDistance:
+                        minimumDistance = stopDistance - 3*1.5 #Three times half the car.
+        return minimumDistance
 
-                return True
-        return False
+    def isInEntrance(self):
+        if len(self.visitedNodes[-1]) == 2:
+            return True
 		
     def initializeCar(self):
         self.startNode = (random.randint(0,self.road.GetNEntrances()-1),1)
@@ -67,12 +78,11 @@ class Car:
         self.position = self.road.GetNodePosition(self.startNode)
         self.visitedNodes = [self.startNode]
         self.velocity = max_velocity*random.random()
-        self.max_velocity = max_velocity
+        self.max_velocity = max_velocity*random.random()
         self.acceleration = max_acceleration
         self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
         self.direction = self.get_direction()
         self.car_number = Car.car_number
-	
 
     def update_next_node(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
