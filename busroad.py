@@ -4,36 +4,20 @@ import pickle
 import utils
 
 def LoadNodesFromFile(text_Name):
-<<<<<<< HEAD
-	f = open(text_Name)
-	loadedRoads = pickle.load(f)
-	f.close()
-	roads = []
-	#print loadedRoads
-	for x in range(0,len(loadedRoads['Start'])):
-		roads.append(BusRoad({loadedRoads['Start'][x],loadedRoads['End'][x]}))
-	return roads
-
-class BusRoad(object):
-
-	def __init__(self, roads):
-		self.roads = roads
-		#print self.roads
-=======
     f = open(text_Name)
     loadedRoads = pickle.load(f)
     f.close()
     roads = []
+	#print loadedRoads
     for x in range(0,len(loadedRoads['Start'])):
-        roads.append(BusRoad([loadedRoads['Start'][x][0],loadedRoads['End'][x][0]]))
-        return roads
+        roads.append(BusRoad({loadedRoads['Start'][x],loadedRoads['End'][x]}))
+    return roads
 
 class BusRoad(object):
 
     def __init__(self, roads):
         self.roads = roads
-        print self.roads
->>>>>>> origin/master
+		#print self.roads
 
     def Draw(self, screen, pygame):
         pygame.draw.line(screen,(125,125,125),self.roads[0],self.roads[1],10)
