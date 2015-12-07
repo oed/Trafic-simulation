@@ -32,9 +32,6 @@ class Bus(Vehicle):
 
         self.velocity = self.velocity + acceleration*delta_t
 
-        if self.velocity < min_velocity:
-            self.velocity = min_velocity
-
         self.update_next_node()
 
         #else:
@@ -48,4 +45,4 @@ class Bus(Vehicle):
             #Adjust the acceleration & velocity accordingly
             #Also check that the car doesn't react to itself as another car
     def draw(self, screen, pygame):
-        super(Bus, self).draw(screen, pygame, (255, 255, 0), 3, 2)
+        super(Bus, self).draw(screen, pygame, (255, 255, 0), 5, 2)

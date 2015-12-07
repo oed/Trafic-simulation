@@ -33,9 +33,6 @@ class Car(Vehicle):
 
         self.velocity = self.velocity + acceleration*delta_t
 
-        if self.velocity < min_velocity:
-            self.velocity = min_velocity
-
         self.update_next_node()
 
         #else:
