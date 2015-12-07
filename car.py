@@ -1,6 +1,5 @@
-import random
 import math
-import utils
+from vehicle import Vehicle
 
 max_velocity = 7 #Class variable shared by all instances
 min_velocity = 0
@@ -10,16 +9,18 @@ range_of_sight = 30
 vision_angle = math.pi/4
 
 
-class Car:
+class Car(Vehicle):
 
     car_number = 0;
 
     def __init__(self, road):
-        self.road = road
-        self.initializeCar()
+        super(Car, self).__init__(road, "Car")
         Car.car_number += 1
 
-    def update(self, cars, delta_t):
+    def spawn(self):
+        super(Car, self).spawn()
+
+    def update(self, vehicles, delta_t):
 
         acceleration = 0
 
@@ -28,8 +29,12 @@ class Car:
 
         distance = self.check_obstacles(cars)
         if distance < 1000 and distance > 0:
+
+        #if self.check_obstacles(vehicles):
+
             #velocity = min_velocity
             acceleration = -2*(self.velocity*self.velocity)/(distance)
+        
         self.velocity = self.velocity + acceleration*delta_t
 
         if distance > 0 and distance < 5:
@@ -37,6 +42,9 @@ class Car:
         
         if self.velocity < min_velocity:
             self.velocity = min_velocity
+        
+        #if self.velocity < 0:
+        #    self.velocity = 0
 
         self.update_next_node()
 
@@ -100,16 +108,10 @@ class Car:
         next_pos = self.road.GetNodePosition(self.nextNode)
         return utils.calc_angle(self.position, next_pos)
 
+    #def check_obstacles(self, vehicles):
+        #for vehicle in vehicles:
+            #if vehicle.vehicle_type == "Car":
+                #super(Car, self).check_obstacles
+
     def draw(self, screen, pygame):
-        positions = [self.rotate_pos(3, 2),
-                     self.rotate_pos(3, -2),
-                     self.rotate_pos(-3, -2),
-                     self.rotate_pos(-3, 2)]
-        pygame.draw.polygon(screen, (255, 255, 0), positions)
-
-    def rotate_pos(self, xDiff, yDiff):
-        x = xDiff * math.cos(self.direction) - yDiff * math.sin(self.direction)
-        y = xDiff * math.sin(self.direction) + yDiff * math.cos(self.direction)
-
-        return (self.position[0] + x, self.position[1] + y)
-
+        super(Car, self).draw(screen, pygame, (255, 255, 0), 3, 2)
