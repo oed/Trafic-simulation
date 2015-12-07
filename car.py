@@ -1,6 +1,4 @@
-import random
 import math
-import utils
 from vehicle import Vehicle
 
 max_velocity = 5 #Class variable shared by all instances
