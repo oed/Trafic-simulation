@@ -19,6 +19,9 @@ class Car(Vehicle):
         super(Car, self).__init__(road, "Car")
         Car.car_number += 1
 
+    def spawn(self):
+        super(Car, self).spawn()
+
     def update(self, vehicles, delta_t):
 
         acceleration = 0
@@ -55,10 +58,3 @@ class Car(Vehicle):
 
     def draw(self, screen, pygame):
         super(Car, self).draw(screen, pygame, (255, 255, 0), 3, 2)
-
-    def rotate_pos(self, xDiff, yDiff):
-        x = xDiff * math.cos(self.direction) - yDiff * math.sin(self.direction)
-        y = xDiff * math.sin(self.direction) + yDiff * math.cos(self.direction)
-
-        return (self.position[0] + x, self.position[1] + y)
-

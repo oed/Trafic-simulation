@@ -41,19 +41,21 @@ class Vehicle(object):
                 # It's our vehicle
                 continue
             distance = utils.calc_distance(self.position, vehicle.position)
-            angle = abs(utils.calc_angle(self.position, vehicle.position) - self.direction)
+            angle = abs(utils.calc_angle(self.position, vehicle.position)
+                        - self.direction)
             if distance <= range_of_sight and angle < vision_angle:
                 #print "Car %d can see another car at angle %d" % (self.number, angle)
                 return True
         return False
 
-
     def update_next_node(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
-        if utils.calc_distance(self.position, next_pos) < self.velocity: #We arrive at the next node
+        if utils.calc_distance(self.position, next_pos) < self.velocity:
+            # We have arrived at the next node
             self.currentNode = self.nextNode
             self.visitedNodes.append(self.currentNode)
-            self.nextNode = self.road.GetNextNode(self.currentNode, exit_probability)
+            self.nextNode = self.road.GetNextNode(self.currentNode,
+                                                  exit_probability)
             if self.nextNode == -1:
                 self.initializeCar()
                 return
@@ -75,4 +77,3 @@ class Vehicle(object):
         y = xDiff * math.sin(self.direction) + yDiff * math.cos(self.direction)
 
         return (self.position[0] + x, self.position[1] + y)
-
