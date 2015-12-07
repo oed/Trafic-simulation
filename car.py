@@ -3,9 +3,9 @@ import utils
 import random
 from vehicle import Vehicle
 
-max_velocity = 7 #Class variable shared by all instances
+max_velocity = 2 #Class variable shared by all instances
 min_velocity = 0
-max_acceleration = 50
+max_acceleration = 2
 exit_probability = 0.5 #Set to other then 0 when Active flag is in play
 range_of_sight = 30
 vision_angle = math.pi/4
@@ -34,7 +34,7 @@ class Car(Vehicle):
             acceleration = self.acceleration
 
         distance = self.check_obstacles(vehicles)
-        if distance < 1000 and distance > 0:
+        if distance < 1000:
 
         #if self.check_obstacles(vehicles):
 
@@ -65,24 +65,6 @@ class Car(Vehicle):
             #Adjust the acceleration & velocity accordingly
             #Also check that the car doesn't react to itself as another car
 
-    def check_obstacles(self, cars):
-        minimumDistance = 1000
-        for car in cars:
-            #if car.isInEntrance:
-            #   continue
-            if self.position == car.position:
-                # It's our car
-                continue
-            else:
-                distance = utils.calc_distance(self.position, car.position)
-                angle = abs(utils.calc_angle(self.position, car.position) - self.direction)
-                if distance <= range_of_sight and angle < vision_angle:
-                    #print "Car %d can see another car at angle %d" % (self.car_number, angle)
-                    stopDistance = utils.calc_stopDistance(distance, angle) - 3*1.5
-                    if stopDistance < minimumDistance:
-                        minimumDistance = stopDistance #Three times half the car.
-        return minimumDistance
-
     def isInEntrance(self):
         if len(self.visitedNodes[-2][1]) == 1:
             return True
@@ -93,7 +75,7 @@ class Car(Vehicle):
         self.position = self.road.GetNodePosition(self.startNode)
         self.visitedNodes = [self.startNode]
         self.velocity = max_velocity
-        self.max_velocity = max_velocity*random.random()
+        self.max_velocity = max_velocity
         self.acceleration = max_acceleration
         self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
         self.direction = self.get_direction()
