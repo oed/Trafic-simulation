@@ -36,6 +36,7 @@ class Vehicle(object):
         raise NotImplementedError()
 
     def check_obstacles(self, vehicles):
+        minimumDistance = 1000;
         for vehicle in vehicles:
             if self.position == vehicle.position:
                 # It's our vehicle
@@ -44,9 +45,10 @@ class Vehicle(object):
             angle = abs(utils.calc_angle(self.position, vehicle.position)
                         - self.direction)
             if distance <= range_of_sight and angle < vision_angle:
-                #print "Car %d can see another car at angle %d" % (self.number, angle)
-                return True
-        return False
+                stopDistance=utils.calc_angle(distance,angle)-3*1.5
+                if stopDistance<minimumDistance:
+                    minimumDistance=stopDistance
+        return minimumDistance
 
     def update_next_node(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
