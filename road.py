@@ -42,6 +42,10 @@ class Road(object):
 		
 	def GetNEntrances(self):
 		return self.nEntrances;
+        
+    def IsEntrance(self,nNode)
+        if nNode[1]==1:
+            return true;
 
 	def GetNodePosition(self, nNode):
 		if nNode[1]==0:
