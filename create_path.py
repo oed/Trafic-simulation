@@ -232,7 +232,14 @@ while 1:
         for exits in roadExit_list:
             pygame.draw.line(screen, red, exits[0], exits[1], 10)
     if len(buses['Main']) > 1:
-        pygame.draw.lines(screen, gray, False, buses['Main'], 20)
+        if (len(buses['Main']) % 2) == 0:
+            for i in xrange(0,len(buses['Main']),2):
+                pygame.draw.line(screen, gray, buses['Main'][i],buses['Main'][i+1], 20)
+        else:
+            for i in xrange(0,len(buses['Main'])-1,2):
+                pygame.draw.line(screen, gray, buses['Main'][i],buses['Main'][i+1], 20)
+
+
     if len(buses['Start']) > 0:
         for entrances in busEntrance_list:
             pygame.draw.line(screen, green, entrances[0], entrances[1], 10)
