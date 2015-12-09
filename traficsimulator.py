@@ -3,6 +3,7 @@ import sys
 import pygame
 from road import Road
 from car import Car
+from bus import Bus
 from busroad import BusRoad
 import busroad
 
@@ -17,11 +18,13 @@ class TraficSimulator():
         size = 620, 540
 
         self.screen = pygame.display.set_mode(size)
-        self.time_interval = 0.1
+        self.time_interval = 0.016
         self.road = Road(map_file)
         self.car_list = []
         self.bus_list = []
         self.busroad_list=busroad.LoadNodesFromFile(bus_map_file)
+        for x in range(0, len(self.busroad_list)):
+            self.bus_list.append(Bus(self.busroad_list[x]))
 
     def start_simulation(self):
         while 1:
@@ -32,6 +35,8 @@ class TraficSimulator():
                     sys.exit()
             for car in self.car_list:
                 car.update(self.car_list, self.time_interval)
+            for bus in self.bus_list:
+                bus.update(self.bus_list, self.time_interval)
             self.draw()
             pygame.time.wait(int(self.time_interval * 1000))
 
@@ -42,6 +47,8 @@ class TraficSimulator():
             busroad.Draw(self.screen,pygame)
         for car in self.car_list:
             car.draw(self.screen, pygame)
+        for bus in self.bus_list:
+            bus.draw(self.screen,pygame)
         pygame.display.flip()
 
 

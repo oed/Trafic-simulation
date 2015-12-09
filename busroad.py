@@ -8,7 +8,6 @@ def LoadNodesFromFile(text_Name):
     loadedRoads = pickle.load(f)
     f.close()
     roads = []
-	#print loadedRoads
     for x in range(0,len(loadedRoads['Start'])):
         roads.append(BusRoad([loadedRoads['Start'][x][0],loadedRoads['End'][x][0]]))
     return roads
@@ -17,16 +16,12 @@ class BusRoad(object):
 
     def __init__(self, roads):
         self.roads = roads
-		#print self.roads
 
     def Draw(self, screen, pygame):
         pygame.draw.line(screen,(125,125,125),self.roads[0],self.roads[1],10)
 
-    def GetNodePosition(self):
-        return self.roads[1]
-
-    def GetStart(self):
-        return self.roads[0]
+    def GetNodePosition(self,node):
+        return self.roads[node]
 
     def GetDistanceToBusStop(self,position,direction):
         deltaX=self.roads[1][0]-self.roads[0][0]

@@ -24,62 +24,51 @@ class Car(Vehicle):
         self.currentNode = self.startNode
         self.visitedNodes = [self.startNode]
         self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
+        self.RightOfPassage=0
         super(Car, self).spawn()
 
     def update(self, vehicles, delta_t):
+        super(Car,self).update(vehicles,delta_t)
+        #acceleration = 0
 
-        acceleration = 0
+        #if self.velocity < self.max_velocity:
+        #    acceleration = self.acceleration
 
-        if self.velocity < self.max_velocity:
-            acceleration = self.acceleration
-
-        distance = self.check_obstacles(vehicles)
-        if distance < 1000:
+        #distance = self.check_obstacles(vehicles)
+        #if distance < 1000 and distance >0:
 
         #if self.check_obstacles(vehicles):
 
             #velocity = min_velocity
-            acceleration = -2*(self.velocity*self.velocity)/(distance)
+        #    acceleration = -2*(self.velocity*self.velocity)/(distance)
+        #if distance < 0:
+        #    self.velocity = 0
         
-        self.velocity = self.velocity + acceleration*delta_t
+        #self.velocity = self.velocity + acceleration*delta_t
 
-        if distance > 0 and distance < 5:
-            self.velocity = 0
+        #if distance > 0 and distance < 5:
+        #    self.velocity = 0
         
-        if self.velocity < min_velocity:
-            self.velocity = min_velocity
+        #if self.velocity < min_velocity:
+        #    self.velocity = min_velocity
         
         #if self.velocity < 0:
         #    self.velocity = 0
 
-        self.update_next_node()
+        #self.update_next_node()
 
         #else:
             #distanceTraversed = [x *self.velocity*delta_t for x in self.position ]
             #self.position = self.position + distanceTraversed
 
-        self.direction = self.get_direction()
-        self.position = (self.position[0] + math.cos(self.direction) * self.velocity,
-                         self.position[1] + math.sin(self.direction) * self.velocity)
+        #self.direction = self.get_direction()
+        #self.position = (self.position[0] + math.cos(self.direction) * self.velocity,
+        #                 self.position[1] + math.sin(self.direction) * self.velocity)
 
             #Adjust the acceleration & velocity accordingly
             #Also check that the car doesn't react to itself as another car
-
-    def isInEntrance(self):
-        if len(self.visitedNodes[-2][1]) == 1:
-            return True
-		
-    def initializeCar(self):
-        self.startNode = (random.randint(0,self.road.GetNEntrances()-1),1)
-        self.currentNode = self.startNode
-        self.position = self.road.GetNodePosition(self.startNode)
-        self.visitedNodes = [self.startNode]
-        self.velocity = max_velocity
-        self.max_velocity = max_velocity
-        self.acceleration = max_acceleration
-        self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
-        self.direction = self.get_direction()
-        self.car_number = Car.car_number
+        #super(Car, self).update(vehicles,delta_t)
+	
 
     def update_next_node(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
@@ -89,18 +78,9 @@ class Car(Vehicle):
             self.visitedNodes.append(self.currentNode)
             self.nextNode = self.road.GetNextNode(self.currentNode, exit_probability)
             if self.nextNode == -1:
-                self.initializeCar()
+                self.spawn();
                 return
             self.direction = self.get_direction()
-
-    def get_direction(self):
-        next_pos = self.road.GetNodePosition(self.nextNode)
-        return utils.calc_angle(self.position, next_pos)
-
-    #def check_obstacles(self, vehicles):
-        #for vehicle in vehicles:
-            #if vehicle.vehicle_type == "Car":
-                #super(Car, self).check_obstacles
 
     def draw(self, screen, pygame):
         super(Car, self).draw(screen, pygame, (255, 255, 0), 3, 2)
