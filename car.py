@@ -28,6 +28,7 @@ class Car(Vehicle):
         self.max_velocity = min_velocity + (max_velocity-min_velocity)*(0.5+0.5*random.random())
         self.vision_angle = vision_angle
         self.range_of_sight = range_of_sight
+        self.color = (155 + 100*random.random(), 255*random.random(), 0)
         super(Car, self).spawn()
 
     def update(self, vehicles, delta_t):
@@ -89,4 +90,4 @@ class Car(Vehicle):
             self.direction = self.get_direction()
 
     def draw(self, screen, pygame):
-        super(Car, self).draw(screen, pygame, (255, 255, 0), 3, 2)
+        super(Car, self).draw(screen, pygame, self.color, 3, 2)
