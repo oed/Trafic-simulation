@@ -5,7 +5,7 @@ import random
 min_velocity = 1
 max_acceleration = 20
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
-vision_angle = math.pi/4
+
 
 
 class Vehicle(object):
