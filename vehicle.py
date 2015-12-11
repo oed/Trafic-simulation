@@ -1,8 +1,6 @@
-import random
 import math
 import utils
 
-max_velocity = 3  # Class variable shared by all instances (even buses)
 min_velocity = 1
 max_acceleration = 20
 range_of_sight = 25
@@ -25,7 +23,6 @@ class Vehicle(object):
     def spawn(self):
         self.position = self.road.GetNodePosition(self.startNode)
         self.velocity = min_velocity;
-        self.max_velocity = min_velocity+ (max_velocity-min_velocity)*random.random()
         self.acceleration = max_acceleration
         self.direction = self.get_direction()
 
@@ -44,15 +41,15 @@ class Vehicle(object):
             acceleration = -2*(self.velocity*self.velocity)/(distance)
         if distance < 0:
             self.velocity = 0
-        
+
         self.velocity = self.velocity + acceleration*delta_t
 
         if distance > 0 and distance < 5:
             self.velocity = 0
-        
+
         if self.velocity < min_velocity:
             self.velocity = min_velocity
-        
+
         #if self.velocity < 0:
         #    self.velocity = 0
 
@@ -78,7 +75,7 @@ class Vehicle(object):
             else:
                 distance = utils.calc_distance(self.position, vehicle.position)
                 angle = abs(utils.calc_angle(self.position, vehicle.position)- self.direction)
-                if distance <= range_of_sight and angle < vision_angle:
+                if distance <= range_of_sight and angle < self.vision_angle:
                     stopDistance=utils.calc_stopDistance(distance,angle)-3*1.5 #3 times radius
                     if stopDistance<minimumDistance:
                         minimumDistance=stopDistance

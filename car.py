@@ -3,7 +3,7 @@ import utils
 import random
 from vehicle import Vehicle
 
-max_velocity = 2 #Class variable shared by all instances
+max_velocity = 4 #Class variable shared by all instances
 min_velocity = 0
 max_acceleration = 2
 exit_probability = 0.5 #Set to other then 0 when Active flag is in play
@@ -25,6 +25,8 @@ class Car(Vehicle):
         self.visitedNodes = [self.startNode]
         self.nextNode = self.road.GetNextNode(self.startNode, exit_probability)
         self.RightOfPassage=0
+        self.max_velocity = min_velocity + (max_velocity-min_velocity)*random.random()
+        self.vision_angle = vision_angle
         super(Car, self).spawn()
 
     def update(self, vehicles, delta_t):
@@ -43,15 +45,15 @@ class Car(Vehicle):
         #    acceleration = -2*(self.velocity*self.velocity)/(distance)
         #if distance < 0:
         #    self.velocity = 0
-        
+
         #self.velocity = self.velocity + acceleration*delta_t
 
         #if distance > 0 and distance < 5:
         #    self.velocity = 0
-        
+
         #if self.velocity < min_velocity:
         #    self.velocity = min_velocity
-        
+
         #if self.velocity < 0:
         #    self.velocity = 0
 
@@ -68,7 +70,7 @@ class Car(Vehicle):
             #Adjust the acceleration & velocity accordingly
             #Also check that the car doesn't react to itself as another car
         #super(Car, self).update(vehicles,delta_t)
-	
+
 
     def update_next_node(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
