@@ -3,9 +3,9 @@ import utils
 import random
 
 min_velocity = 1
-max_acceleration = 20
+max_acceleration = 200
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
-
+vision_angle = math.pi/4
 
 
 class Vehicle(object):
@@ -22,7 +22,8 @@ class Vehicle(object):
 
     def spawn(self):
         self.position = self.road.GetNodePosition(self.startNode)
-        self.velocity = min_velocity;
+        self.velocity = 200;
+        self.active = True
         self.acceleration = max_acceleration
         self.direction = self.get_direction()
 
@@ -33,7 +34,7 @@ class Vehicle(object):
             acceleration = self.acceleration
 
         distance = self.check_obstacles(vehicles)
-        if distance < 1000 and distance >0:
+        if distance < 1000 and distance > 0:
 
         #if self.check_obstacles(vehicles):
 
@@ -55,8 +56,9 @@ class Vehicle(object):
 
         self.update_next_node(delta_t)
 
-        self.direction = self.get_direction()
-        self.position = (self.position[0] + math.cos(self.direction) * self.velocity*delta_t,
+        if self.active:
+            self.direction = self.get_direction()
+            self.position = (self.position[0] + math.cos(self.direction) * self.velocity*delta_t,
                          self.position[1] + math.sin(self.direction) * self.velocity*delta_t)
 
     def check_obstacles(self, vehicles):

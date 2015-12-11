@@ -9,7 +9,7 @@ pygame.init()
 
 print " Time to draw!\n This is how the outline of the drawing tool works:\n With TAB you go back and forth between drawing roads and buslanes.\n Press TAB once and roads are to be drawn.\n Press TAB when drawing roads buslanes will be drawn instead.\n If you want to keep drawing roads just hit TAB again. \n Once you pressed TAB you have three options namly press 1, press 2 or press 3.\n These options will draw 1) Main roads 2) Entrance to roads 3) Exits to roads.\n In the case you want to remove a road press BACKSPACE and click nearest a node\n of that road to remove\n When saving the files press s (Note that this will terminate the program)."
 
-size = width, height = 620, 540
+size = width, height = 800, 600
 black = 0, 0, 0
 white = 255, 255, 255
 green = 0, 255, 0
@@ -111,7 +111,6 @@ while 1:
                 print buses
                 pickle.dump(buses, g)
                 g.close()
-                sys.exit()
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             

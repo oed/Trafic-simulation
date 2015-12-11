@@ -3,7 +3,7 @@ import utils
 import random
 from vehicle import Vehicle
 
-max_velocity = 1000 #Class variable shared by all instances
+max_velocity = 200 #Class variable shared by all instances
 min_velocity = 1
 max_acceleration = 1000
 exit_probability = 0.5 #Set to other then 0 when Active flag is in play
@@ -46,7 +46,7 @@ class Car(Vehicle):
             self.visitedNodes.append(self.currentNode)
             self.nextNode = self.road.GetNextNode(self.currentNode, exit_probability)
             if self.nextNode == -1:
-                self.spawn()
+                self.active = False
                 return
             self.direction = self.get_direction()
 
