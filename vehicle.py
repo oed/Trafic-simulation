@@ -1,5 +1,6 @@
 import math
 import utils
+import random
 
 min_velocity = 1
 max_acceleration = 20
@@ -85,11 +86,19 @@ class Vehicle(object):
         return utils.calc_angle(self.position, next_pos)
 
     def draw(self, screen, pygame, color, length, width):
+        self.draw_clouds(screen, pygame)
         positions = [self.rotate_pos(length, width),
                      self.rotate_pos(length, -width),
                      self.rotate_pos(-length, -width),
                      self.rotate_pos(-length, width)]
         pygame.draw.polygon(screen, color, positions)
+
+    def draw_clouds(self, screen, pygame):
+        for x in range(1, 8):
+            if 0.3 < random.random():
+                pos = self.rotate_pos(-5 + 6*random.random(), -1 + 2*random.random())
+                pos = (int(pos[0]), int(pos[1]))
+                pygame.draw.circle(screen, (255, 255, 255), pos, 1)
 
     def rotate_pos(self, xDiff, yDiff):
         x = xDiff * math.cos(self.direction) - yDiff * math.sin(self.direction)
