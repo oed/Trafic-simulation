@@ -27,6 +27,7 @@ class Car(Vehicle):
         self.RightOfPassage=0
         self.max_velocity = min_velocity + (max_velocity-min_velocity)*random.random()
         self.vision_angle = vision_angle
+        self.range_of_sight = range_of_sight
         super(Car, self).spawn()
 
     def update(self, vehicles, delta_t):

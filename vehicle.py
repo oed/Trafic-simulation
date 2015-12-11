@@ -3,7 +3,6 @@ import utils
 
 min_velocity = 1
 max_acceleration = 20
-range_of_sight = 25
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
 vision_angle = math.pi/4
 
@@ -75,7 +74,7 @@ class Vehicle(object):
             else:
                 distance = utils.calc_distance(self.position, vehicle.position)
                 angle = abs(utils.calc_angle(self.position, vehicle.position)- self.direction)
-                if distance <= range_of_sight and angle < self.vision_angle:
+                if distance <= self.range_of_sight and angle < self.vision_angle:
                     stopDistance=utils.calc_stopDistance(distance,angle)-3*1.5 #3 times radius
                     if stopDistance<minimumDistance:
                         minimumDistance=stopDistance

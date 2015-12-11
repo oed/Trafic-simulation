@@ -28,6 +28,7 @@ class Bus(Vehicle):
         self.stopped=0;
         self.max_velocity = min_velocity + (max_velocity-min_velocity)*random.random()
         self.vision_angle = vision_angle
+        self.range_of_sight = range_of_sight
         super(Bus, self).spawn()
 
     def update(self, vehicles, delta_t):
