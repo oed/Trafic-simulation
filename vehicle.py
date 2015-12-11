@@ -47,8 +47,8 @@ class Vehicle(object):
         if distance > 0 and distance < 5:
             self.velocity = 0
 
-        if self.velocity < min_velocity:
-            self.velocity = min_velocity
+        if self.velocity < self.min_velocity:
+            self.velocity = self.min_velocity
 
         #if self.velocity < 0:
         #    self.velocity = 0
@@ -66,7 +66,7 @@ class Vehicle(object):
     def check_obstacles(self, vehicles):
         minimumDistance = 1000;
         for vehicle in vehicles:
-            if vehicle.RightOfPassage==0:
+            if vehicle.RightOfPassage==0 and self.RightOfPassage ==1:
                 # The vehicle doesn't have right of passage (not in roundabout)
                 continue
             elif self.position == vehicle.position:

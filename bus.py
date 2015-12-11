@@ -29,6 +29,7 @@ class Bus(Vehicle):
         self.max_velocity = min_velocity + (max_velocity-min_velocity)*(0.5+0.5*random.random())
         self.vision_angle = vision_angle
         self.range_of_sight = range_of_sight
+        self.min_velocity = min_velocity
         super(Bus, self).spawn()
 
     def update(self, vehicles, delta_t):

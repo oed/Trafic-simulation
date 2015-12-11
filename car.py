@@ -3,9 +3,9 @@ import utils
 import random
 from vehicle import Vehicle
 
-max_velocity = 500 #Class variable shared by all instances
-min_velocity = 0
-max_acceleration = 200
+max_velocity = 1000 #Class variable shared by all instances
+min_velocity = 1
+max_acceleration = 1000
 exit_probability = 0.5 #Set to other then 0 when Active flag is in play
 range_of_sight = 30
 vision_angle = math.pi/4
@@ -29,6 +29,7 @@ class Car(Vehicle):
         self.vision_angle = vision_angle
         self.range_of_sight = range_of_sight
         self.color = (155 + 100*random.random(), 255*random.random(), 0)
+        self.min_velocity=min_velocity
         super(Car, self).spawn()
 
     def update(self, vehicles, delta_t):
@@ -79,7 +80,7 @@ class Car(Vehicle):
 
 
         if utils.calc_distance(self.position, next_pos) < self.velocity*delta_t: #We arrive at the next node
-            print 'inne i ifsatsen'
+
             self.RightOfPassage=1;
             self.currentNode = self.nextNode
             self.visitedNodes.append(self.currentNode)
