@@ -22,6 +22,8 @@ roads['Main'] = []
 roads['Start'] = []
 roads['End'] = []
 
+
+
 buses = {}
 buses['Main'] = []
 buses['Start'] = []
@@ -32,10 +34,8 @@ state = 0
 BusRoadStates = 1
 RoadStates = 1
 
-
 roadExit_list = []
 roadEntrance_list = []
-
 busExit_list = []
 busEntrance_list = []
 
@@ -111,6 +111,15 @@ while 1:
                 print buses
                 pickle.dump(buses, g)
                 g.close()
+
+            if event.key == pygame.K_l:
+                f = open('map.data')
+                roads = pickle.load(f)
+                g = open('busmap.data')
+                buses = pickle.load(g)
+                f.close()
+                g.close()
+
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             

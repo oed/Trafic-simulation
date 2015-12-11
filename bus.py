@@ -7,8 +7,8 @@ max_velocity = 200  # Class variable shared by all instances
 min_velocity = 0
 max_acceleration = 200
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
-range_of_sight = 25
-vision_angle = math.pi/10
+range_of_sight = 30
+vision_angle = math.pi/8
 stop_time = 1
 
 
@@ -49,4 +49,4 @@ class Bus(Vehicle):
             self.spawn()
 
     def draw(self, screen, pygame):
-        super(Bus, self).draw(screen, pygame, (0, 0, 255), 5, 2)
+        super(Bus, self).draw(screen, pygame, (0, 0, 255), 8, 4)

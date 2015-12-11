@@ -15,7 +15,7 @@ class TraficSimulator():
         pygame.init()
         size = 800, 600
 
-        self.time_between_spawn = 0.1
+        self.time_between_spawn = 0.5
         self.spawn_timer = self.time_between_spawn
 
         self.screen = pygame.display.set_mode(size)

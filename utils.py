@@ -20,6 +20,9 @@ def calc_angle(pos1, pos2):
         angle += math.pi
     return angle
 
+def meterToPixel(meter):
+    return (meter*800)/155.0
+
 def calc_stopDistance(distance, angle):
     """Calculate the stop distance between two positions"""
     return distance*math.cos(angle)

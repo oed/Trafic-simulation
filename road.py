@@ -27,17 +27,26 @@ class Road(object):
         self.nNodes=len(self.roads['Main'])
         self.nEntrances=len(self.roads['Start'])
         self.nExits=len(self.roads['End'])
+        self.exit_probability = [910.0/3280,400.0/3280,1200.0/3280,460.0/3280,180.0/3280]
+        self.entrance_probability = [880/3280.0,(880+430)/3280.0,(770+880+430)/3280.0,(770+880+430+500)/3280.0,1.1]
         f.close()
 
-    def GetNextNode(self, current_Node,exit_Probability):
+    def GetEntrance(self):
+        r = random.random()
+        for i,p in enumerate(self.entrance_probability):
+            if r < p:
+                return i
+
+    def GetNextNode(self, current_Node):
         if (current_Node[1]==1):
             return (self.roads['Start'][current_Node[0]][1],0)
         if (current_Node[1]==2):
             return -1;
-        if (random.random()< exit_Probability):
+        if (current_Node[1]==0):
             exitNode = self.FindConnectedExit(current_Node)
             if exitNode!=-1:
-                return (exitNode,2)
+                if (random.random()< self.exit_probability[exitNode]):
+                    return (exitNode,2)
         return ((current_Node[0]+1)%self.nNodes,0)
 
     def GetNEntrances(self):

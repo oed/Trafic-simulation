@@ -6,6 +6,7 @@ min_velocity = 1
 max_acceleration = 200
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
 vision_angle = math.pi/4
+vision_angle_entrance = 3.0*math.pi/4
 
 
 class Vehicle(object):
@@ -15,6 +16,7 @@ class Vehicle(object):
     def __init__(self, road, vehicle_type):
         self.vehicle_type = vehicle_type
         self.road = road
+        self.vision_angle_entrance = vision_angle_entrance
         self.RightOfPassage=0
         self.spawn()
         self.number = Vehicle.vehicle_number
@@ -48,8 +50,10 @@ class Vehicle(object):
         if distance > 0 and distance < 5:
             self.velocity = 0
 
-        if self.velocity < self.min_velocity:
+        if self.velocity < self.min_velocity and self.RightOfPassage == 1:
             self.velocity = self.min_velocity
+        elif self.velocity < 0:
+            self.velocity == 0
 
         #if self.velocity < 0:
         #    self.velocity = 0
@@ -73,11 +77,15 @@ class Vehicle(object):
             else:
                 distance = utils.calc_distance(self.position, vehicle.position)
                 angle = abs(utils.calc_angle(self.position, vehicle.position)- self.direction)
-                if distance <= self.range_of_sight and angle < self.vision_angle:
+                current_vision = self.vision_angle
+                if self.RightOfPassage == 0:
+                    current_vision = self.vision_angle_entrance
+                if distance <= self.range_of_sight and angle < current_vision:
                     stopDistance=utils.calc_stopDistance(distance,angle)-3*1.5 #3 times radius
                     if stopDistance<minimumDistance:
                         minimumDistance=stopDistance
         return minimumDistance
+
 
     def get_direction(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
