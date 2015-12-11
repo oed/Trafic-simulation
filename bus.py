@@ -22,10 +22,10 @@ class Bus(Vehicle):
 
     def spawn(self):
         self.startNode=0
-        self.nextNode=1;
+        self.nextNode=1
         self.RightOfPassage=1
-        self.stopTimer=stop_time;
-        self.stopped=0;
+        self.stopTimer=stop_time
+        self.stopped=0
         self.max_velocity = min_velocity + (max_velocity-min_velocity)*(0.5+0.5*random.random())
         self.vision_angle = vision_angle
         self.range_of_sight = range_of_sight
@@ -34,47 +34,19 @@ class Bus(Vehicle):
 
     def update(self, vehicles, delta_t):
         if self.stopped == 1:
-            self.stopTimer=self.stopTimer-delta_t
-            if self.stopTimer<0:
-                self.stopped=0
+            self.stopTimer = self.stopTimer-delta_t
+            if self.stopTimer < 0:
+                self.stopped = 0
         else:
             super(Bus,self).update(vehicles,delta_t)
-        if self.stopTimer==stop_time:
-            if self.road.GetDistanceToBusStop(self.position,self.direction)<0:
+        if self.stopTimer == stop_time:
+            if self.road.GetDistanceToBusStop(self.position, self.direction) < 0:
                 self.stopped = 1
-
-
-
-        #acceleration = 0
-
-        #if self.velocity < self.max_velocity:
-        #    acceleration = self.acceleration
-
-        #if self.check_obstacles(vehicles):
-        #    acceleration = -self.acceleration
-
-        #if self.velocity < 0:
-        #    self.velocity = 0
-
-        #self.velocity = self.velocity + acceleration*delta_t
-
-        #self.update_next_node()
-
-        #else:
-            #distanceTraversed = [x *self.velocity*delta_t for x in self.position ]
-            #self.position = self.position + distanceTraversed
-
-        #self.direction = self.get_direction()
-        #self.position = (self.position[0] + math.cos(self.direction) * self.velocity,
-        #                 self.position[1] + math.sin(self.direction) * self.velocity)
-                         #Adjust the acceleration & velocity accordingly
-            #Also check that the car doesn't react to itself as another car
 
     def update_next_node(self,delta_t):
         next_pos = self.road.GetNodePosition(self.nextNode)
         if utils.calc_distance(self.position, next_pos) < self.velocity*delta_t: #We arrive at the next node
             self.spawn()
-
 
     def draw(self, screen, pygame):
         super(Bus, self).draw(screen, pygame, (0, 0, 255), 5, 2)

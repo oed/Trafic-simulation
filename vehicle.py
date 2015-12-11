@@ -55,10 +55,6 @@ class Vehicle(object):
 
         self.update_next_node(delta_t)
 
-        #else:
-            #distanceTraversed = [x *self.velocity*delta_t for x in self.position ]
-            #self.position = self.position + distanceTraversed
-
         self.direction = self.get_direction()
         self.position = (self.position[0] + math.cos(self.direction) * self.velocity*delta_t,
                          self.position[1] + math.sin(self.direction) * self.velocity*delta_t)
