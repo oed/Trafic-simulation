@@ -75,10 +75,7 @@ class Car(Vehicle):
 
     def update_next_node(self,delta_t):
         next_pos = self.road.GetNodePosition(self.nextNode)
-        print 'distance'
-        print utils.calc_distance(self.position, next_pos)
-        print 'produkt'
-        print self.velocity*delta_t
+
 
         if utils.calc_distance(self.position, next_pos) < self.velocity*delta_t: #We arrive at the next node
             print 'inne i ifsatsen'
