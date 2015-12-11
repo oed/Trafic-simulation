@@ -11,8 +11,8 @@ class Road(object):
 
     def Draw(self, screen, pygame):
         self.DrawList(screen,pygame,self.roads['Main'],(125,125,125))
-        self.DrawNodeLines(screen,pygame,self.roads['Start'],self.roads['Main'],(0,255,0))
-        self.DrawNodeLines(screen,pygame,self.roads['End'],self.roads['Main'],(255,0,0))
+        self.DrawNodeLines(screen,pygame,self.roads['Start'],self.roads['Main'],(125,175,125))
+        self.DrawNodeLines(screen,pygame,self.roads['End'],self.roads['Main'],(175,125,125))
 
     def DrawList(self,screen,pygame,node_List,color):
         pygame.draw.lines(screen,color,True,node_List,10)
@@ -39,10 +39,10 @@ class Road(object):
             if exitNode!=-1:
                 return (exitNode,2)
         return ((current_Node[0]+1)%self.nNodes,0)
-		
+
     def GetNEntrances(self):
         return self.nEntrances;
-        
+
     def IsEntrance(self,nNode):
         if nNode[1]==1:
             return true

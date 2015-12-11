@@ -1,11 +1,9 @@
 #!/usr/bin/env python2
 import sys
 import pygame
-import copy
 from road import Road
 from car import Car
 from bus import Bus
-from busroad import BusRoad
 import busroad
 
 BLACK = (0, 0, 0)
@@ -15,7 +13,7 @@ class TraficSimulator():
 
     def __init__(self, map_file, bus_map_file):
         pygame.init()
-        size = 800, 600 
+        size = 800, 600
 
         self.time_between_spawn = 0.1
         self.spawn_timer = self.time_between_spawn
@@ -31,7 +29,7 @@ class TraficSimulator():
     def start_simulation(self):
         while 1:
             self.spawn_timer -= self.time_interval
-            if Car.car_number < 3280 and self.spawn_timer < 0:    
+            if Car.car_number < 3280 and self.spawn_timer < 0:
                 self.vehicle_list.append(Car(self.road))
                 self.spawn_timer = self.time_between_spawn
             for event in pygame.event.get():
@@ -48,13 +46,13 @@ class TraficSimulator():
     def draw(self):
         self.screen.fill(BLACK)
         self.road.Draw(self.screen, pygame)
-        for busroad in self.busroad_list:
-            busroad.Draw(self.screen,pygame)
+        for road in self.busroad_list:
+            road.Draw(self.screen, pygame)
         for vehicle in self.vehicle_list:
             vehicle.draw(self.screen, pygame)
         pygame.display.flip()
 
 
 if __name__ == '__main__':
-    ts = TraficSimulator("map.data","busmap.data")
+    ts = TraficSimulator("map.data", "busmap.data")
     ts.start_simulation()
