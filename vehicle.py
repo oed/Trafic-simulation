@@ -96,7 +96,7 @@ class Vehicle(object):
     def draw_clouds(self, screen, pygame):
         for x in range(1, 8):
             if 0.3 < random.random():
-                pos = self.rotate_pos(-5 + 6*random.random(), -1 + 2*random.random())
+                pos = self.rotate_pos(-4 + -4*random.random(), -2 + 5*random.random())
                 pos = (int(pos[0]), int(pos[1]))
                 pygame.draw.circle(screen, (255, 255, 255), pos, 1)
 
