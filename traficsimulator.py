@@ -30,8 +30,10 @@ class TraficSimulator():
         while 1:
             self.spawn_timer -= self.time_interval
             if Car.car_number < 3280 and self.spawn_timer < 0:
-                self.vehicle_list.append(Car(self.road))
-                self.spawn_timer = self.time_between_spawn
+                newCar = Car(self.road)
+                if newCar.valid_spawn(self.vehicle_list):
+                    self.vehicle_list.append(newCar)
+                    self.spawn_timer = self.time_between_spawn
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()

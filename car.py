@@ -32,6 +32,13 @@ class Car(Vehicle):
         self.min_velocity=min_velocity
         super(Car, self).spawn()
 
+    def valid_spawn(self, cars):
+        for car in cars:
+            distance = utils.calc_distance(self.position, car.position)
+            if distance < 4:
+                return False
+        return True
+
     def update(self, vehicles, delta_t):
         super(Car, self).update(vehicles, delta_t)
 
