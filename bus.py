@@ -37,14 +37,14 @@ class Bus(Vehicle):
         if self.stopTimer==stop_time:
             if self.road.GetDistanceToBusStop(self.position,self.direction)<0:
                 self.stopped = 1
-        
-             
-       
+
+
+
         #acceleration = 0
 
         #if self.velocity < self.max_velocity:
         #    acceleration = self.acceleration
-            
+
         #if self.check_obstacles(vehicles):
         #    acceleration = -self.acceleration
 
@@ -69,7 +69,7 @@ class Bus(Vehicle):
         next_pos = self.road.GetNodePosition(self.nextNode)
         if utils.calc_distance(self.position, next_pos) < self.velocity: #We arrive at the next node
             self.spawn()
-                
-            
+
+
     def draw(self, screen, pygame):
-        super(Bus, self).draw(screen, pygame, (255, 255, 0), 5, 2)
+        super(Bus, self).draw(screen, pygame, (0, 0, 255), 5, 2)
