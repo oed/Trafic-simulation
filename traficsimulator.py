@@ -26,7 +26,7 @@ class TraficSimulator():
 
     def start_simulation(self):
         while 1:
-            if Car.car_number < 1:
+            if Car.car_number < 50:
                 self.vehicle_list.append(Car(self.road))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

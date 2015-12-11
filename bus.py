@@ -3,9 +3,9 @@ import utils
 import random
 from vehicle import Vehicle
 
-max_velocity = 2  # Class variable shared by all instances
+max_velocity = 200  # Class variable shared by all instances
 min_velocity = 0
-max_acceleration = 20
+max_acceleration = 200
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
 range_of_sight = 25
 vision_angle = math.pi/6
@@ -26,7 +26,7 @@ class Bus(Vehicle):
         self.RightOfPassage=1
         self.stopTimer=stop_time;
         self.stopped=0;
-        self.max_velocity = min_velocity + (max_velocity-min_velocity)*random.random()
+        self.max_velocity = min_velocity + (max_velocity-min_velocity)*(0.5+0.5*random.random())
         self.vision_angle = vision_angle
         self.range_of_sight = range_of_sight
         super(Bus, self).spawn()
