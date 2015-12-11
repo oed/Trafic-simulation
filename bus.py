@@ -65,9 +65,9 @@ class Bus(Vehicle):
                          #Adjust the acceleration & velocity accordingly
             #Also check that the car doesn't react to itself as another car
 
-    def update_next_node(self):
+    def update_next_node(self,delta_t):
         next_pos = self.road.GetNodePosition(self.nextNode)
-        if utils.calc_distance(self.position, next_pos) < self.velocity: #We arrive at the next node
+        if utils.calc_distance(self.position, next_pos) < self.velocity*delta_t: #We arrive at the next node
             self.spawn()
 
 

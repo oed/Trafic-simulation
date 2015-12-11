@@ -2,8 +2,8 @@ import random
 import math
 import utils
 
-max_velocity = 3  # Class variable shared by all instances (even buses)
-min_velocity = 1
+max_velocity = 20  # Class variable shared by all instances (even buses)
+min_velocity = 0
 max_acceleration = 20
 range_of_sight = 25
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
@@ -56,15 +56,15 @@ class Vehicle(object):
         #if self.velocity < 0:
         #    self.velocity = 0
 
-        self.update_next_node()
+        self.update_next_node(delta_t)
 
         #else:
             #distanceTraversed = [x *self.velocity*delta_t for x in self.position ]
             #self.position = self.position + distanceTraversed
 
         self.direction = self.get_direction()
-        self.position = (self.position[0] + math.cos(self.direction) * self.velocity,
-                         self.position[1] + math.sin(self.direction) * self.velocity)
+        self.position = (self.position[0] + math.cos(self.direction) * self.velocity*delta_t,
+                         self.position[1] + math.sin(self.direction) * self.velocity*delta_t)
 
     def check_obstacles(self, vehicles):
         minimumDistance = 1000;
