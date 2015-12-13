@@ -14,8 +14,9 @@ black = 0, 0, 0
 white = 255, 255, 255
 green = 0, 255, 0
 red = 255, 0, 0
-gray = 200, 200, 200 
+gray = 200, 200, 200
 
+img = pygame.image.load('map.png')
 screen = pygame.display.set_mode(size)
 roads = {}
 roads['Main'] = []
@@ -58,12 +59,12 @@ def getNearestNodeIndex(pos, node_list):
     return index
 
 def getNearestNodeInList(pos, any_list):
-    min_dist = 1000 
+    min_dist = 1000
     for node in any_list:
         dist = utils.calc_distance(pos, node)
         if dist < min_dist:
             min_dist = dist
-            index = any_list.index(node)      
+            index = any_list.index(node)
     return any_list[index]
 
 while 1:
@@ -71,7 +72,7 @@ while 1:
         if event.type == pygame.QUIT:
             sys.exit()
         if event.type == pygame.KEYDOWN:
-            
+
             if event.key == pygame.K_TAB:
                 state += 1
                 if state == 1:
@@ -89,19 +90,19 @@ while 1:
                 state = 3
                 print "You are currently deleting roads"
 
-            if event.key == pygame.K_1 and state == 1:    
+            if event.key == pygame.K_1 and state == 1:
                 RoadStates = 1
             elif event.key == pygame.K_2 and state == 1:
                 RoadStates = 2
-            elif event.key == pygame.K_3 and state == 1:           
+            elif event.key == pygame.K_3 and state == 1:
                 RoadStates = 3
-                
-            if event.key == pygame.K_1 and state == 2:    
+
+            if event.key == pygame.K_1 and state == 2:
                 BusRoadStates = 1
             elif event.key == pygame.K_2 and state == 2:
                 BusRoadStates = 2
             elif event.key == pygame.K_3 and state == 2:
-                BusRoadStates = 3 
+                BusRoadStates = 3
 
             if event.key == pygame.K_s:
                 f = open('map.data', 'w')
@@ -122,7 +123,7 @@ while 1:
 
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            
+
             if state == 1 and RoadStates == 1:
                 roads['Main'].append(event.pos)
             elif state == 1 and RoadStates == 2:
@@ -135,7 +136,7 @@ while 1:
                 if len(roads['Main']) != 0:
                     roads['End'].append((event.pos, getNearestNodeIndex(event.pos,roads['Main'])))
                     roadExit_list.append(getNearestMainNode(event.pos,roads['Main']))
-                else: 
+                else:
                     print "Main road is needed"
             elif state == 2 and BusRoadStates == 1:
                 buses['Main'].append(event.pos)
@@ -150,7 +151,7 @@ while 1:
                     buses['End'].append((event.pos, getNearestNodeIndex(event.pos, buses['Main'])))
                     busExit_list.append(getNearestMainNode(event.pos, buses['Main']))
                 else:
-                    print "Main bus road needed"  
+                    print "Main bus road needed"
             elif state == 3:
 
                 alter = 0
@@ -163,15 +164,15 @@ while 1:
                         dist = distMainNode
                         alter = 1
 
-                if len(roads['Start']) != 0: 
+                if len(roads['Start']) != 0:
                     nearestStartNode = getNearestNodeInList(event.pos, [x[0] for x in roads['Start']])
-                    distStartNode = utils.calc_distance(event.pos, nearestStartNode) 
+                    distStartNode = utils.calc_distance(event.pos, nearestStartNode)
                     if distStartNode < dist:
                         dist = distStartNode
                         alter = 2
                 if len(roads['End']) != 0:
                     nearestEndNode = getNearestNodeInList(event.pos, [x[0] for x in roads['End']])
-                    distEndNode = utils.calc_distance(event.pos, nearestEndNode) 
+                    distEndNode = utils.calc_distance(event.pos, nearestEndNode)
                     if distEndNode < dist:
                         dist = distEndNode
                         alter = 3
@@ -201,7 +202,7 @@ while 1:
                 elif alter == 3:
                     roads['End'].remove(roads['End'][[x[0] for x in roads['End']].index(nearestEndNode)])
                     roadExit_list.remove(roadExit_list[[x[0] for x in roadExit_list].index(nearestEndNode)])
-                elif alter == 4: 
+                elif alter == 4:
                     buses['Main'].remove(nearestBusNode)
                 elif alter == 5:
                     buses['Start'].remove(buses['Start'][[x[0] for x in buses['Start']].index(nearestBusStartNode)])
@@ -213,9 +214,10 @@ while 1:
                     print "failed"
             #else:
                 #print "No state selected : Change state by pressing TAB or DEL "
-    
+
     mouse_pos = pygame.mouse.get_pos()
     screen.fill(black)
+    screen.blit(img, [100, 0])
 
     # Fill circles for positions in the lists:
     for node in roads['Main']:
