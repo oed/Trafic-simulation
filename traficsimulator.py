@@ -4,7 +4,9 @@ import pygame
 from road import Road
 from car import Car
 from bus import Bus
+from pedrestian import Pedrestian
 import busroad
+import pedrestianroad
 
 BLACK = (0, 0, 0)
 NUMBER_OF_CARS = 3280
@@ -25,12 +27,17 @@ class TraficSimulator():
         self.busroad_list = busroad.LoadNodesFromFile(bus_map_file)
         self.BusSpawnRates=[18, 21, 35, 25, 61,49];
         self.BusSpawnRates=list(map(lambda x: 3600.0/x, self.BusSpawnRates))
+        
+        self.pedrestianroad_list= pedrestianroad.LoadNodesFromFile()
 
     def start_simulation(self):
         while 1:
             self.spawn_timer -= self.time_interval
             if Car.car_number < NUMBER_OF_CARS and self.spawn_timer < 0:
                 newCar = Car(self.road)
+                # Temp
+                self.vehicle_list.append(Pedrestian(self.pedrestianroad_list[0]))
+                
                 if newCar.valid_spawn(self.vehicle_list):
                     self.vehicle_list.append(newCar)
                     self.spawn_timer = self.cars_per_second
@@ -55,6 +62,8 @@ class TraficSimulator():
         self.screen.fill(BLACK)
         self.road.Draw(self.screen, pygame)
         for road in self.busroad_list:
+            road.Draw(self.screen, pygame)
+        for road in self.pedrestianroad_list:
             road.Draw(self.screen, pygame)
         for vehicle in self.vehicle_list:
             vehicle.draw(self.screen, pygame)
