@@ -19,6 +19,9 @@ class TraficSimulator():
         self.total_elapsed_time=0
         self.cars_per_second = NUMBER_OF_CARS / 3600.
         self.spawn_timer = self.cars_per_second
+        
+        self.spawn_pedrestian_timer = 0.05
+        self.spawn_pedrestian_interval=0.05
 
         self.screen = pygame.display.set_mode(size)
         self.time_interval = 0.016
@@ -33,14 +36,16 @@ class TraficSimulator():
     def start_simulation(self):
         while 1:
             self.spawn_timer -= self.time_interval
+            self.spawn_pedrestian_timer -= self.time_interval
             if Car.car_number < NUMBER_OF_CARS and self.spawn_timer < 0:
                 newCar = Car(self.road)
-                # Temp
-                self.vehicle_list.append(Pedrestian(self.pedrestianroad_list[0]))
-                
                 if newCar.valid_spawn(self.vehicle_list):
                     self.vehicle_list.append(newCar)
                     self.spawn_timer = self.cars_per_second
+            if self.spawn_pedrestian_timer < 0:
+                for x in range(0, len(self.pedrestianroad_list)):
+                    self.vehicle_list.append(Pedrestian(self.pedrestianroad_list[x]))
+                self.spawn_pedrestian_timer=self.spawn_pedrestian_interval
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
@@ -54,6 +59,7 @@ class TraficSimulator():
             for vehicle in self.vehicle_list:
                 if not vehicle.active:
                     self.vehicle_list.remove(vehicle)
+            
             self.draw()
             self.total_elapsed_time+=self.time_interval
             pygame.time.wait(int(self.time_interval * 1000))
