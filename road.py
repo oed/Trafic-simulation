@@ -31,7 +31,7 @@ class Road(object):
         self.nEntrances=len(self.roads['Start'])
         self.nExits=len(self.roads['End'])
         self.exit_probability = [910.0/3280,400.0/3280,1200.0/3280,460.0/3280,180.0/3280]
-        self.entrance_probability = [880/3280.0,(880+430)/3280.0,(770+880+430)/3280.0,(770+880+430+500)/3280.0,1.1]
+        self.entrance_probability = [880/3280.0,(880+430)/3280.0,(770+880+430)/3280.0,1.1]
         f.close()
 
     def GetEntrance(self):

@@ -10,8 +10,15 @@ def LoadNodesFromFile(text_Name):
     loadedRoads = pickle.load(f)
     f.close()
     roads = []
-    for x in range(0,len(loadedRoads['Start'])):
-        roads.append(BusRoad([loadedRoads['Start'][x][0],loadedRoads['End'][x][0]]))
+    
+    roads.append(BusRoad([loadedRoads['Start'][0][0],loadedRoads['End'][1][0]]))
+    roads.append(BusRoad([loadedRoads['Start'][1][0],loadedRoads['End'][0][0]]))
+    
+    roads.append(BusRoad([loadedRoads['Start'][1][0],loadedRoads['End'][2][0]]))
+    roads.append(BusRoad([loadedRoads['Start'][2][0],loadedRoads['End'][1][0]]))
+    
+    roads.append(BusRoad([loadedRoads['Start'][2][0],loadedRoads['End'][3][0]]))
+    roads.append(BusRoad([loadedRoads['Start'][3][0],loadedRoads['End'][2][0]]))
     return roads
 
 class BusRoad(object):

@@ -28,7 +28,7 @@ class TraficSimulator():
         self.busroad_list = busroad.LoadNodesFromFile(bus_map_file)
         self.BusSpawnRates=[18, 21, 35, 25, 61,49];
         self.BusSpawnRates=list(map(lambda x: 3600.0/x, self.BusSpawnRates))
-
+        
     def start_simulation(self):
         while 1:
             self.spawn_timer -= self.time_interval
