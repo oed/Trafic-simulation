@@ -36,6 +36,7 @@ class Car(Vehicle):
         for car in cars:
             distance = utils.calc_distance(self.position, car.position)
             if distance < 6:
+                Car.car_number -= 1
                 return False
         return True
 
@@ -44,7 +45,6 @@ class Car(Vehicle):
 
     def update_next_node(self, delta_t):
         next_pos = self.road.GetNodePosition(self.nextNode)
-
 
         if utils.calc_distance(self.position, next_pos) < self.velocity*delta_t: #We arrive at the next node
 
