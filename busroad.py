@@ -11,6 +11,7 @@ def LoadNodesFromFile(text_Name):
     f.close()
     roads = []
     
+    
     roads.append(BusRoad([loadedRoads['Start'][0][0],loadedRoads['End'][1][0]]))
     roads.append(BusRoad([loadedRoads['Start'][1][0],loadedRoads['End'][0][0]]))
     
@@ -18,6 +19,7 @@ def LoadNodesFromFile(text_Name):
     roads.append(BusRoad([loadedRoads['Start'][2][0],loadedRoads['End'][3][0]]))
     
     roads.append(BusRoad([loadedRoads['Start'][0][0],loadedRoads['End'][3][0]]))
+    
     roads.append(BusRoad([loadedRoads['Start'][3][0],loadedRoads['End'][0][0]]))
     
     
@@ -31,6 +33,10 @@ class BusRoad(object):
     def Draw(self, screen, pygame):
         pygame.draw.line(screen,(125,125,125),self.roads[0],self.roads[1],roadWidth)
 
+    def GetNextNode(self,node):
+        if node < len(self.roads)-2:
+            return node+1
+        return -1
     def GetNodePosition(self,node):
         return self.roads[node]
 

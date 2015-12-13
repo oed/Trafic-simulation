@@ -28,6 +28,7 @@ class TraficSimulator():
         self.busroad_list = busroad.LoadNodesFromFile(bus_map_file)
         self.BusSpawnRates=[18, 21, 35, 25, 61,49];
         self.BusSpawnRates=list(map(lambda x: 3600.0/x, self.BusSpawnRates))
+        self.BusSpawnRates=[1,1,1,1,1,1];
         
     def start_simulation(self):
         while 1:
@@ -52,7 +53,7 @@ class TraficSimulator():
                     self.vehicle_list.remove(vehicle)
             self.draw()
             self.total_elapsed_time+=self.time_interval
-            pygame.time.wait(int(self.time_interval * 1000))
+            #pygame.time.wait(int(self.time_interval * 1000))
 
     def draw(self):
         self.screen.fill(BLACK)
@@ -60,8 +61,8 @@ class TraficSimulator():
         text = self.font.render("Time elapsed: %s" % self.total_elapsed_time, 1, (255, 255, 255))
         self.screen.blit(text, [10, 10])
         #self.road.Draw(self.screen, pygame)
-        for road in self.busroad_list:
-            road.Draw(self.screen, pygame)
+        #for road in self.busroad_list:
+        #    road.Draw(self.screen, pygame)
         for vehicle in self.vehicle_list:
             vehicle.draw(self.screen, pygame)
         pygame.display.flip()
