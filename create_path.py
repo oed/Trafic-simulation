@@ -9,14 +9,14 @@ pygame.init()
 
 print " Time to draw!\n This is how the outline of the drawing tool works:\n With TAB you go back and forth between drawing roads and buslanes.\n Press TAB once and roads are to be drawn.\n Press TAB when drawing roads buslanes will be drawn instead.\n If you want to keep drawing roads just hit TAB again. \n Once you pressed TAB you have three options namly press 1, press 2 or press 3.\n These options will draw 1) Main roads 2) Entrance to roads 3) Exits to roads.\n In the case you want to remove a road press BACKSPACE and click nearest a node\n of that road to remove\n When saving the files press s (Note that this will terminate the program)."
 
-size = width, height = 800, 600
+size = width, height = 603, 660
 black = 0, 0, 0
 white = 255, 255, 255
 green = 0, 255, 0
 red = 255, 0, 0
 gray = 200, 200, 200
 
-img = pygame.image.load('map.png')
+img = pygame.image.load('korsvagen.png')
 screen = pygame.display.set_mode(size)
 roads = {}
 roads['Main'] = []
@@ -180,6 +180,7 @@ while 1:
                     nearestBusNode = getNearestNodeInList(event.pos, buses['Main'])
                     distBusNode = utils.calc_distance(event.pos, nearestBusNode)
                     if distBusNode < dist:
+                        dist = distBusNode
                         alter = 4
                 if len(buses['Start']) != 0:
                     nearestBusStartNode = getNearestNodeInList(event.pos, [x[0] for x in buses['Start']])
@@ -217,11 +218,11 @@ while 1:
 
     mouse_pos = pygame.mouse.get_pos()
     screen.fill(black)
-    screen.blit(img, [100, 0])
+    screen.blit(img, [0, 0])
 
     # Fill circles for positions in the lists:
     for node in roads['Main']:
-        pygame.draw.circle(screen, white, node, 5)
+        pygame.draw.circle(screen, black, node, 5)
     for start in roads['Start']:
         pygame.draw.circle(screen, green, start[0], 5)
     for slut in roads['End']:
@@ -235,33 +236,33 @@ while 1:
 
     # Draw lines between nodes in the lists for state = 0, for state = 1 & 2 draw to cloest node in node_list:
     if len(roads['Main']) > 1:
-        pygame.draw.lines(screen, white, False, roads['Main'], 20)
+        pygame.draw.lines(screen, black, False, roads['Main'], 5)
     if len(roads['Start']) > 0:
         for entrances in roadEntrance_list:
-            pygame.draw.line(screen, green, entrances[0], entrances[1], 10)
+            pygame.draw.line(screen, green, entrances[0], entrances[1], 5)
     if len(roads['End']) > 0:
         for exits in roadExit_list:
-            pygame.draw.line(screen, red, exits[0], exits[1], 10)
-    if len(buses['Main']) > 1:
-        if (len(buses['Main']) % 2) == 0:
-            for i in xrange(0,len(buses['Main']),2):
-                pygame.draw.line(screen, gray, buses['Main'][i],buses['Main'][i+1], 20)
-        else:
-            for i in xrange(0,len(buses['Main'])-1,2):
-                pygame.draw.line(screen, gray, buses['Main'][i],buses['Main'][i+1], 20)
+            pygame.draw.line(screen, red, exits[0], exits[1], 5)
+    #if len(buses['Main']) > 1:
+    #    if (len(buses['Main']) % 2) == 0:
+    #        for i in xrange(0,len(buses['Main']),2):
+    #            pygame.draw.line(screen, gray, buses['Main'][i],buses['Main'][i+1], 5)
+    #    else:
+    #        for i in xrange(0,len(buses['Main'])-1,2):
+    #            pygame.draw.line(screen, gray, buses['Main'][i],buses['Main'][i+1], 5)
 
 
     if len(buses['Start']) > 0:
         for entrances in busEntrance_list:
-            pygame.draw.line(screen, green, entrances[0], entrances[1], 10)
+            pygame.draw.line(screen, green, entrances[0], entrances[1], 5)
     if len(buses['End']) > 0:
         for exits in busExit_list:
-            pygame.draw.line(screen, red, exits[0], exits[1], 10)
+            pygame.draw.line(screen, red, exits[0], exits[1], 5)
 
 
     # Mouse pointer color:
     if state == 1 and RoadStates == 1:
-        pygame.draw.circle(screen, white, mouse_pos, 5)
+        pygame.draw.circle(screen, black, mouse_pos, 5)
     elif state == 1 and RoadStates == 2:
         pygame.draw.circle(screen, green, mouse_pos, 5)
     elif state == 1 and RoadStates == 3:
