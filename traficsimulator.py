@@ -14,7 +14,7 @@ class TraficSimulator():
     def __init__(self, map_file, bus_map_file):
         pygame.init()
         size = 800, 600
-
+        self.total_elapsed_time=0
         self.time_between_spawn = 0.5
         self.spawn_timer = self.time_between_spawn
 
@@ -23,8 +23,9 @@ class TraficSimulator():
         self.road = Road(map_file)
         self.vehicle_list = []
         self.busroad_list = busroad.LoadNodesFromFile(bus_map_file)
-        for x in range(0, len(self.busroad_list)):
-            self.vehicle_list.append(Bus(self.busroad_list[x]))
+        self.BusSpawnRates=[18, 21, 35, 25, 61,49];
+        self.BusSpawnRates=list(map(lambda x: 3600.0/x, self.BusSpawnRates))
+        print self.BusSpawnRates
 
     def start_simulation(self):
         while 1:
@@ -37,12 +38,17 @@ class TraficSimulator():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
+            for x in range(0, len(self.busroad_list)):
+                if self.total_elapsed_time % self.BusSpawnRates[x] <= self.time_interval:
+                    print self.total_elapsed_time % self.BusSpawnRates[x]
+                    self.vehicle_list.append(Bus(self.busroad_list[x]))
             for vehicle in self.vehicle_list:
                 vehicle.update(self.vehicle_list, self.time_interval)
             for vehicle in self.vehicle_list:
                 if not vehicle.active:
                     self.vehicle_list.remove(vehicle)
             self.draw()
+            self.total_elapsed_time+=self.time_interval
             pygame.time.wait(int(self.time_interval * 1000))
 
     def draw(self):
