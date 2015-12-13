@@ -46,7 +46,7 @@ class Bus(Vehicle):
     def update_next_node(self,delta_t):
         next_pos = self.road.GetNodePosition(self.nextNode)
         if utils.calc_distance(self.position, next_pos) < self.velocity*delta_t: #We arrive at the next node
-            self.spawn()
+            self.active=False
 
     def draw(self, screen, pygame):
         super(Bus, self).draw(screen, pygame, (0, 0, 255), 8, 4)
