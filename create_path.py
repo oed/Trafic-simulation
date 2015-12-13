@@ -16,7 +16,7 @@ green = 0, 255, 0
 red = 255, 0, 0
 gray = 200, 200, 200
 
-img = pygame.image.load('korsvagen.png')
+img = pygame.image.load('korsvagen2.png')
 screen = pygame.display.set_mode(size)
 roads = {}
 roads['Main'] = []
