@@ -81,7 +81,7 @@ class Vehicle(object):
                 if self.RightOfPassage == 0:
                     current_vision = self.vision_angle_entrance
                 if distance <= self.range_of_sight and angle < current_vision:
-                    stopDistance=utils.calc_stopDistance(distance,angle)-3*1.5 #3 times radius
+                    stopDistance=utils.calc_stopDistance(distance,angle)-self.length*2-vehicle.length #3 times radius
                     if stopDistance<minimumDistance:
                         minimumDistance=stopDistance
         return minimumDistance

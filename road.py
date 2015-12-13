@@ -1,6 +1,9 @@
 import pygame
 import random
 import pickle
+import utils
+
+roadWidth=int(utils.meterToPixel(4))
 
 
 
@@ -15,11 +18,11 @@ class Road(object):
         self.DrawNodeLines(screen,pygame,self.roads['End'],self.roads['Main'],(175,125,125))
 
     def DrawList(self,screen,pygame,node_List,color):
-        pygame.draw.lines(screen,color,True,node_List,10)
+        pygame.draw.lines(screen,color,True,node_List,roadWidth)
 
     def DrawNodeLines(self,screen,pygame,node_List_With_Index,node_List,color):
         for iNode in range(0,len(node_List_With_Index)):
-            pygame.draw.line(screen,color,node_List_With_Index[iNode][0],node_List[node_List_With_Index[iNode][1]],5)
+            pygame.draw.line(screen,color,node_List_With_Index[iNode][0],node_List[node_List_With_Index[iNode][1]],roadWidth)
 
     def LoadNodesFromFile(self, text_Name):
         f = open(text_Name)

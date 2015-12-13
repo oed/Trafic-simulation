@@ -3,6 +3,8 @@ import math
 import pickle
 import utils
 
+roadWidth=int(utils.meterToPixel(4))
+
 def LoadNodesFromFile(text_Name):
     f = open(text_Name)
     loadedRoads = pickle.load(f)
@@ -18,7 +20,7 @@ class BusRoad(object):
         self.roads = roads
 
     def Draw(self, screen, pygame):
-        pygame.draw.line(screen,(125,125,125),self.roads[0],self.roads[1],10)
+        pygame.draw.line(screen,(125,125,125),self.roads[0],self.roads[1],roadWidth)
 
     def GetNodePosition(self,node):
         return self.roads[node]

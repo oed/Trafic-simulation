@@ -7,8 +7,10 @@ max_velocity = utils.meterToPixel(30) #Class variable shared by all instances
 min_velocity = utils.meterToPixel(3)
 max_acceleration = 1000
 exit_probability = 0.5 #Set to other then 0 when Active flag is in play
-range_of_sight = 30
+range_of_sight = utils.meterToPixel(10)
 vision_angle = math.pi/5
+length=utils.meterToPixel(5)/2
+width = utils.meterToPixel(2.2)/2
 
 
 class Car(Vehicle):
@@ -30,6 +32,8 @@ class Car(Vehicle):
         self.range_of_sight = range_of_sight
         self.color = (155 + 100*random.random(), 255*random.random(), 0)
         self.min_velocity=min_velocity
+        self.length=length
+        self.width=width
         super(Car, self).spawn()
 
     def valid_spawn(self, cars):
@@ -58,4 +62,4 @@ class Car(Vehicle):
             self.direction = self.get_direction()
 
     def draw(self, screen, pygame):
-        super(Car, self).draw(screen, pygame, self.color, 3, 2)
+        super(Car, self).draw(screen, pygame, self.color, self.length, self.width)
