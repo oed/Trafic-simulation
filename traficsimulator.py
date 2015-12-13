@@ -14,6 +14,7 @@ class TraficSimulator():
     def __init__(self, map_file, bus_map_file):
         pygame.init()
         size = 800, 600
+        self.font = pygame.font.Font(None, 35)
         self.total_elapsed_time=0
         self.cars_per_second = NUMBER_OF_CARS / 3600.
         self.spawn_timer = self.cars_per_second
@@ -53,6 +54,8 @@ class TraficSimulator():
 
     def draw(self):
         self.screen.fill(BLACK)
+        text = self.font.render("Time elapsed: %s" % self.total_elapsed_time, 1, (255, 255, 255))
+        self.screen.blit(text, [10, 10])
         self.road.Draw(self.screen, pygame)
         for road in self.busroad_list:
             road.Draw(self.screen, pygame)
