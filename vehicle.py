@@ -53,7 +53,7 @@ class Vehicle(object):
         if self.velocity < self.min_velocity and self.RightOfPassage == 1:
             self.velocity = self.min_velocity
         elif self.velocity < 0:
-            self.velocity == 0
+            self.velocity = 0
 
         #if self.velocity < 0:
         #    self.velocity = 0
