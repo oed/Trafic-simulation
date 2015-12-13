@@ -9,11 +9,13 @@ import busroad
 BLACK = (0, 0, 0)
 NUMBER_OF_CARS = 3280
 
+
 class TraficSimulator():
 
     def __init__(self, map_file, bus_map_file):
         pygame.init()
-        size = 800, 600
+        size = 603, 660
+        self.img = pygame.image.load('korsvagen.png')
         self.font = pygame.font.Font(None, 35)
         self.total_elapsed_time=0
         self.cars_per_second = NUMBER_OF_CARS / 3600.
@@ -54,6 +56,7 @@ class TraficSimulator():
 
     def draw(self):
         self.screen.fill(BLACK)
+        self.screen.blit(self.img, [0, 0])
         text = self.font.render("Time elapsed: %s" % self.total_elapsed_time, 1, (255, 255, 255))
         self.screen.blit(text, [10, 10])
         self.road.Draw(self.screen, pygame)
