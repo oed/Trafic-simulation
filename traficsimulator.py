@@ -38,9 +38,9 @@ class TraficSimulator():
                 if event.type == pygame.QUIT:
                     sys.exit()
             for x in range(0, len(self.busroad_list)):
-                if self.total_elapsed_time % self.BusSpawnRates[x] <= self.time_interval:
-                    print self.total_elapsed_time % self.BusSpawnRates[x]
-                    self.vehicle_list.append(Bus(self.busroad_list[x]))
+                if self.total_elapsed_time > 2*self.time_interval:
+                    if self.total_elapsed_time % self.BusSpawnRates[x] < self.time_interval:
+                        self.vehicle_list.append(Bus(self.busroad_list[x]))
             for vehicle in self.vehicle_list:
                 if vehicle.active:
                     vehicle.update(self.vehicle_list, self.time_interval)
