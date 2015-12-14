@@ -34,7 +34,7 @@ class Vehicle(object):
 
         if self.velocity < self.max_velocity:
             acceleration = self.acceleration
-
+            
         distance = self.check_obstacles(vehicles)
         if distance < 1000 and distance > 0:
 
@@ -68,6 +68,8 @@ class Vehicle(object):
     def check_obstacles(self, vehicles):
         minimumDistance = 1000;
         for vehicle in vehicles:
+            if self.vehicle_type == "Pedrestian" and vehicle.vehicle_type == "Pedrestian":
+                continue
             if vehicle.RightOfPassage==0 and self.RightOfPassage ==1:
                 # The vehicle doesn't have right of passage (not in roundabout)
                 continue

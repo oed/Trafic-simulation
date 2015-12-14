@@ -39,7 +39,7 @@ class Car(Vehicle):
     def valid_spawn(self, cars):
         for car in cars:
             distance = utils.calc_distance(self.position, car.position)
-            if distance < 6:
+            if distance < self.length:
                 Car.car_number -= 1
                 return False
         return True
