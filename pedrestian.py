@@ -10,10 +10,7 @@ exit_probability = 0.25  # Set to other then 0 when Active flag is in play
 range_of_sight = utils.meterToPixel(10)
 vision_angle = math.pi/8
 stop_time = 1
-length=utils.meterToPixel(0.5)/2
-width=utils.meterToPixel(0.3)/2
-length=utils.meterToPixel(1)/2
-width=utils.meterToPixel(1)/2
+radius = utils.meterToPixel(0.5)
 
 
 class Pedrestian(Vehicle):
@@ -35,8 +32,7 @@ class Pedrestian(Vehicle):
         self.vision_angle = vision_angle
         self.range_of_sight = range_of_sight
         self.min_velocity = min_velocity
-        self.length=length
-        self.width=width
+        self.length = radius*2
         super(Pedrestian, self).spawn()
 
     def update(self, vehicles, delta_t):
@@ -50,4 +46,5 @@ class Pedrestian(Vehicle):
                 self.active=False
 
     def draw(self, screen, pygame):
-        super(Pedrestian, self).draw(screen, pygame, (0, 0, 255), self.length, self.width)
+        pos = (int(self.position[0]), int(self.position[1]))
+        pygame.draw.circle(screen, (0, 0, 255), pos, int(radius))
