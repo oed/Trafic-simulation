@@ -7,7 +7,7 @@ max_velocity = utils.meterToPixel(5)  # Class variable shared by all instances
 min_velocity = utils.meterToPixel(1)
 max_acceleration = 0.1
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
-range_of_sight = utils.meterToPixel(4.2)
+range_of_sight = utils.meterToPixel(3.5)
 vision_angle = math.pi/3
 length=utils.meterToPixel(0.5)/2
 width=utils.meterToPixel(0.3)/2
@@ -33,8 +33,7 @@ class Pedrestian(Vehicle):
         self.vision_angle = vision_angle
         self.range_of_sight = range_of_sight
         self.min_velocity = min_velocity
-        self.length=length
-        self.width=width
+        self.length = length
         super(Pedrestian, self).spawn()
 
     def update(self, vehicles, delta_t):
