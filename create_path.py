@@ -124,6 +124,8 @@ while 1:
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
 
+            print event.pos
+
             if state == 1 and RoadStates == 1:
                 roads['Main'].append(event.pos)
             elif state == 1 and RoadStates == 2:
