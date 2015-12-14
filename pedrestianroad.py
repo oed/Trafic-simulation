@@ -7,8 +7,8 @@ roadWidth=int(utils.meterToPixel(4))
 
 def LoadNodesFromFile():
     roads = []
-    roads.append(PedrestianRoad([[600,100],[700,400]]))
-    roads.append(PedrestianRoad([[700,400],[600,100]]))
+    roads.append(PedrestianRoad([[450,75],[460,250]]))
+    roads.append(PedrestianRoad([[460,250],[450,75]]))
     return roads
 
 class PedrestianRoad(object):

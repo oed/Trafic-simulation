@@ -24,7 +24,7 @@ class TraficSimulator():
         self.spawn_timer = self.cars_per_second
         
         self.spawn_pedrestian_timer = 0.05
-        self.spawn_pedrestian_interval=0.05
+        self.spawn_pedrestian_interval=0.5
 
         self.screen = pygame.display.set_mode(size)
         self.time_interval = 0.016
@@ -75,11 +75,11 @@ class TraficSimulator():
         #self.road.Draw(self.screen, pygame)
         #for road in self.busroad_list:
         #    road.Draw(self.screen, pygame)
-        self.road.Draw(self.screen, pygame)
-        for road in self.busroad_list:
-            road.Draw(self.screen, pygame)
-        for road in self.pedrestianroad_list:
-            road.Draw(self.screen, pygame)
+        #self.road.Draw(self.screen, pygame)
+        #for road in self.busroad_list:
+        #    road.Draw(self.screen, pygame)
+        #for road in self.pedrestianroad_list:
+        #    road.Draw(self.screen, pygame)
         for vehicle in self.vehicle_list:
             vehicle.draw(self.screen, pygame)
         pygame.display.flip()
