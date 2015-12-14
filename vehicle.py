@@ -24,7 +24,6 @@ class Vehicle(object):
 
     def spawn(self):
         self.position = self.road.GetNodePosition(self.startNode)
-        self.velocity = 200;
         self.active = True
         self.acceleration = max_acceleration
         self.direction = self.get_direction()
@@ -34,7 +33,7 @@ class Vehicle(object):
 
         if self.velocity < self.max_velocity:
             acceleration = self.acceleration
-            
+
         distance = self.check_obstacles(vehicles)
         if distance < 1000 and distance > 0:
 
@@ -94,7 +93,8 @@ class Vehicle(object):
         return utils.calc_angle(self.position, next_pos)
 
     def draw(self, screen, pygame, color, length, width):
-        self.draw_clouds(screen, pygame)
+        if self.vehicle_type != "Pedrestian":
+            self.draw_clouds(screen, pygame)
         positions = [self.rotate_pos(length, width),
                      self.rotate_pos(length, -width),
                      self.rotate_pos(-length, -width),

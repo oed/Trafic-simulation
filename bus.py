@@ -28,6 +28,7 @@ class Bus(Vehicle):
         self.RightOfPassage=1
         self.stopTimer=stop_time
         self.stopped=0
+        self.velocity=200
         self.max_velocity = min_velocity + (max_velocity-min_velocity)*(0.5+0.5*random.random())
         self.vision_angle = vision_angle
         self.range_of_sight = range_of_sight

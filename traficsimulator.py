@@ -7,6 +7,8 @@ from bus import Bus
 from pedrestian import Pedrestian
 import busroad
 import pedrestianroad
+import utils
+import random
 
 BLACK = (0, 0, 0)
 NUMBER_OF_CARS = 3280
@@ -24,7 +26,7 @@ class TraficSimulator():
         self.spawn_timer = self.cars_per_second
         
         self.spawn_pedrestian_timer = 0.05
-        self.spawn_pedrestian_interval=0.5
+        self.spawn_pedrestian_interval=3600/700
 
         self.screen = pygame.display.set_mode(size)
         self.time_interval = 0.016
@@ -33,7 +35,13 @@ class TraficSimulator():
         self.busroad_list = busroad.LoadNodesFromFile(bus_map_file)
         self.BusSpawnRates=[18, 21, 35, 25, 61,49];
         self.BusSpawnRates=list(map(lambda x: 3600.0/x, self.BusSpawnRates))
+        p1=0.40
+        p2=0.20
+        p3=0.40
         
+        self.PedrestianSpawnRates=[p1/6,p1/6,p1/6,p1/6,p1/6,p1/6,p2/4,p2/4,p2/4,p2/4,p3/2,p3/2]
+        self.PedrestianSpawnRates=utils.CumSum(self.PedrestianSpawnRates)
+        print self.PedrestianSpawnRates
         self.pedrestianroad_list= pedrestianroad.LoadNodesFromFile()
 
     def start_simulation(self):
@@ -46,8 +54,11 @@ class TraficSimulator():
                     self.vehicle_list.append(newCar)
                     self.spawn_timer = self.cars_per_second
             if self.spawn_pedrestian_timer < 0:
+                r=random.random()
                 for x in range(0, len(self.pedrestianroad_list)):
-                    self.vehicle_list.append(Pedrestian(self.pedrestianroad_list[x]))
+                    if r < self.PedrestianSpawnRates[x]:
+                        self.vehicle_list.append(Pedrestian(self.pedrestianroad_list[x]))
+                        break
                 self.spawn_pedrestian_timer=self.spawn_pedrestian_interval
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

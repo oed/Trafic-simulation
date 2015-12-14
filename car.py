@@ -28,6 +28,7 @@ class Car(Vehicle):
         self.nextNode = self.road.GetNextNode(self.startNode)
         self.RightOfPassage=0
         self.max_velocity = min_velocity + (max_velocity-min_velocity)*(0.5+0.5*random.random())
+        self.velocity=200;
         self.vision_angle = vision_angle
         self.range_of_sight = range_of_sight
         self.color = (155 + 100*random.random(), 255*random.random(), 0)
@@ -39,7 +40,7 @@ class Car(Vehicle):
     def valid_spawn(self, cars):
         for car in cars:
             distance = utils.calc_distance(self.position, car.position)
-            if distance < self.length:
+            if distance < 6:
                 Car.car_number -= 1
                 return False
         return True

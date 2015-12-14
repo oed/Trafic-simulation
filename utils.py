@@ -26,3 +26,13 @@ def meterToPixel(meter):
 def calc_stopDistance(distance, angle):
     """Calculate the stop distance between two positions"""
     return distance*math.cos(angle)
+    
+    
+def CumSum(a):
+    cum_sum=[]
+    y=0
+    for i in a:
+        y+= i
+        cum_sum.append(y)
+    print cum_sum
+    return cum_sum

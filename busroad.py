@@ -47,6 +47,7 @@ class BusRoad(object):
         if node < len(self.roads)-1:
             return node+1
         return -1
+        
     def GetNodePosition(self,node):
         return self.roads[node]
 
