@@ -41,7 +41,6 @@ class TraficSimulator():
         
         self.PedrestianSpawnRates=[p1/6,p1/6,p1/6,p1/6,p1/6,p1/6,p2/4,p2/4,p2/4,p2/4,p3/2,p3/2]
         self.PedrestianSpawnRates=utils.CumSum(self.PedrestianSpawnRates)
-        print self.PedrestianSpawnRates
         self.pedrestianroad_list= pedrestianroad.LoadNodesFromFile()
 
     def start_simulation(self):
@@ -52,7 +51,7 @@ class TraficSimulator():
                 newCar = Car(self.road)
                 if newCar.valid_spawn(self.vehicle_list):
                     self.vehicle_list.append(newCar)
-                    self.spawn_timer = self.cars_per_second
+                    self.spawn_timer += self.cars_per_second
             if self.spawn_pedrestian_timer < 0:
                 r=random.random()
                 for x in range(0, len(self.pedrestianroad_list)):

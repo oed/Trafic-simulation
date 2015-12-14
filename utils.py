@@ -34,5 +34,4 @@ def CumSum(a):
     for i in a:
         y+= i
         cum_sum.append(y)
-    print cum_sum
     return cum_sum

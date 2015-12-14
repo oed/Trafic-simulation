@@ -69,7 +69,7 @@ class Vehicle(object):
         for vehicle in vehicles:
             if self.vehicle_type == "Pedrestian" and vehicle.vehicle_type == "Pedrestian":
                 continue
-            if vehicle.RightOfPassage==0 and self.RightOfPassage ==1:
+            elif vehicle.RightOfPassage==0 and self.RightOfPassage ==1 and self.vehicle_type != "Pedrestian":
                 # The vehicle doesn't have right of passage (not in roundabout)
                 continue
             elif self.position == vehicle.position:

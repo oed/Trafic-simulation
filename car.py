@@ -3,14 +3,16 @@ import utils
 import random
 from vehicle import Vehicle
 
-max_velocity = utils.meterToPixel(30) #Class variable shared by all instances
-min_velocity = utils.meterToPixel(3)
+max_velocity = utils.meterToPixel(25) #Class variable shared by all instances
+min_velocity = utils.meterToPixel(0.001)
 max_acceleration = 1000
 exit_probability = 0.5 #Set to other then 0 when Active flag is in play
-range_of_sight = utils.meterToPixel(10)
-vision_angle = math.pi/5
-length=utils.meterToPixel(5)/2
-width = utils.meterToPixel(2.2)/2
+range_of_sight = utils.meterToPixel(7.5)
+vision_angle = math.pi/4
+#length=utils.meterToPixel(5)/2
+#width = utils.meterToPixel(2.2)/2
+length=utils.meterToPixel(4.7)/2
+width = utils.meterToPixel(1.8)/2
 
 
 class Car(Vehicle):
@@ -28,7 +30,7 @@ class Car(Vehicle):
         self.nextNode = self.road.GetNextNode(self.startNode)
         self.RightOfPassage=0
         self.max_velocity = min_velocity + (max_velocity-min_velocity)*(0.5+0.5*random.random())
-        self.velocity=200;
+        self.velocity=self.max_velocity;
         self.vision_angle = vision_angle
         self.range_of_sight = range_of_sight
         self.color = (155 + 100*random.random(), 255*random.random(), 0)
@@ -40,7 +42,7 @@ class Car(Vehicle):
     def valid_spawn(self, cars):
         for car in cars:
             distance = utils.calc_distance(self.position, car.position)
-            if distance < 6:
+            if distance < 2*self.length:
                 Car.car_number -= 1
                 return False
         return True

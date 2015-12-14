@@ -4,15 +4,14 @@ import random
 from vehicle import Vehicle
 
 max_velocity = utils.meterToPixel(5)  # Class variable shared by all instances
-min_velocity = utils.meterToPixel(4)
-max_acceleration = 200
+min_velocity = utils.meterToPixel(1)
+max_acceleration = 0.1
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
-range_of_sight = utils.meterToPixel(10)
-vision_angle = math.pi/8
-stop_time = 1
+range_of_sight = utils.meterToPixel(4.2)
+vision_angle = math.pi/3
 length=utils.meterToPixel(0.5)/2
 width=utils.meterToPixel(0.3)/2
-length=utils.meterToPixel(1)/2
+length=utils.meterToPixel(1.5)/2
 width=utils.meterToPixel(1)/2
 
 
@@ -28,7 +27,6 @@ class Pedrestian(Vehicle):
         self.startNode=0
         self.nextNode=1
         self.RightOfPassage=1
-        self.stopTimer=stop_time
         self.stopped=0
         self.velocity=max_velocity
         self.max_velocity = min_velocity + (max_velocity-min_velocity)*(0.5+0.5*random.random())
@@ -50,4 +48,6 @@ class Pedrestian(Vehicle):
                 self.active=False
 
     def draw(self, screen, pygame):
-        super(Pedrestian, self).draw(screen, pygame, (0, 0, 255), self.length, self.width)
+        #super(Pedrestian, self).draw(screen, pygame, (0, 0, 255), self.length, self.width)
+        pos = (int(self.position[0]), int(self.position[1]))
+        pygame.draw.circle(screen, (0, 0, 255), pos, int(self.length), 0)
