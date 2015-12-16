@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 import sys
 import pygame
+import pickle
 from road import Road
 from car import Car
 from bus import Bus
@@ -80,7 +81,7 @@ class TraficSimulator():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_s:
-                        savedata()
+                        self.savedata()
             
             self.draw()
             self.total_elapsed_time+=self.time_interval
@@ -105,7 +106,7 @@ class TraficSimulator():
         
     def savedata(self):
         f = open('exit_data.data','w')
-        pickle.dump(self.car_exit_times)
+        pickle.dump(self.car_exit_times, f)
         f.close()
 
 
