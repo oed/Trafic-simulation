@@ -120,7 +120,18 @@ class TraficSimulator():
             #road.Draw(self.screen, pygame)
         for vehicle in self.vehicle_list:
             vehicle.draw(self.screen, pygame)
+        self.display_queues()
         pygame.display.flip()
+
+    def display_queues(self):
+        text = self.font.render("%s" % self.car_queues[2], 1, (255, 0, 0))
+        self.screen.blit(text, [19, 283])
+        text = self.font.render("%s" % self.car_queues[1], 1, (255, 0, 0))
+        self.screen.blit(text, [260, 15])
+        text = self.font.render("%s" % self.car_queues[0], 1, (255, 0, 0))
+        self.screen.blit(text, [540, 54])
+        text = self.font.render("%s" % self.car_queues[3], 1, (255, 0, 0))
+        self.screen.blit(text, [551, 541])
 
     def savedata(self):
         print "Save Data"
