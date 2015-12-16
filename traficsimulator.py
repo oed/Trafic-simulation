@@ -81,6 +81,7 @@ class TraficSimulator():
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_s:
+                        print "SAVED SUCCESFULLY! (@0.0)@"
                         self.savedata()
             
             self.draw()
