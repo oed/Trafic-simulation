@@ -18,12 +18,12 @@ class Car(Vehicle):
 
     car_number = 0;
 
-    def __init__(self, road):
+    def __init__(self, road, start_node):
+        self.startNode = (start_node, 1)
         super(Car, self).__init__(road, "Car")
         Car.car_number += 1
 
     def spawn(self):
-        self.startNode = (self.road.GetEntrance(), 1)
         self.currentNode = self.startNode
         self.visitedNodes = [self.startNode]
         self.nextNode = self.road.GetNextNode(self.startNode)

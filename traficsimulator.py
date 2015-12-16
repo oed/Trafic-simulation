@@ -37,6 +37,7 @@ class TraficSimulator():
         self.time_interval = 0.016
         self.road = Road(map_file)
         self.vehicle_list = []
+        self.car_queues = [0]*self.road.GetNEntrances()
         self.busroad_list = busroad.LoadNodesFromFile(bus_map_file)
         self.BusSpawnRates=[18, 21, 35, 25, 61,49];
         self.BusSpawnRates=list(map(lambda x: 3600.0/x, self.BusSpawnRates))
@@ -48,23 +49,34 @@ class TraficSimulator():
         self.PedrestianSpawnRates=utils.CumSum(self.PedrestianSpawnRates)
         self.pedrestianroad_list= pedrestianroad.LoadNodesFromFile()
 
+    def spawn_cars(self):
+        self.spawn_timer -= self.time_interval
+        if  self.spawn_timer < 0:
+            self.car_queues[self.road.GetEntrance()] += 1
+            self.spawn_timer += self.cars_per_second
+
+        for i, x in enumerate(self.car_queues):
+            if x > 0:
+                newCar = Car(self.road, i)
+                if newCar.valid_spawn(self.vehicle_list):
+                    self.vehicle_list.append(newCar)
+                    self.car_queues[i] -= 1
+
+    def spawn_pedestrian(self):
+        self.spawn_pedrestian_timer -= self.time_interval
+        if self.spawn_pedrestian_timer < 0:
+            r=random.random()
+            for x in range(0, len(self.pedrestianroad_list)):
+                if r < self.PedrestianSpawnRates[x]:
+                    self.vehicle_list.append(Pedrestian(self.pedrestianroad_list[x]))
+                    break
+            self.spawn_pedrestian_timer=self.spawn_pedrestian_interval
+
     def start_simulation(self):
         draw_counter = 0
         while 1:
-            self.spawn_timer -= self.time_interval
-            self.spawn_pedrestian_timer -= self.time_interval
-            if  self.spawn_timer < 0:
-                newCar = Car(self.road)
-                if newCar.valid_spawn(self.vehicle_list):
-                    self.vehicle_list.append(newCar)
-                    self.spawn_timer += self.cars_per_second
-            if self.spawn_pedrestian_timer < 0:
-                r=random.random()
-                for x in range(0, len(self.pedrestianroad_list)):
-                    if r < self.PedrestianSpawnRates[x]:
-                        self.vehicle_list.append(Pedrestian(self.pedrestianroad_list[x]))
-                        break
-                self.spawn_pedrestian_timer=self.spawn_pedrestian_interval
+            self.spawn_cars()
+            self.spawn_pedestrian()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
@@ -81,7 +93,7 @@ class TraficSimulator():
                         self.car_exit_times.append(self.total_elapsed_time)
                     self.vehicle_list.remove(vehicle)
             for event in pygame.event.get():
-                print "Event occured"
+                #print "Event occured"
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_s:
                         print "SAVED SUCCESFULLY! (@0.0)@"
