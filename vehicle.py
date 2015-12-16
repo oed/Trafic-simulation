@@ -1,8 +1,6 @@
 import math
 import utils
 import random
-import numpy
-from numpy import linalg as LA
 
 min_velocity = 0
 max_acceleration = 100
@@ -87,16 +85,6 @@ class Vehicle(object):
                     if stopDistance<minimumDistance:
                         minimumDistance=stopDistance
         return minimumDistance
-
-    def getNextVehiclePosition(self, position):
-        next_pos = self.road.GetNodePosition(self.nextNode)
-        pos = tuple(numpy.subtract(next_pos, position))
-        normPos = LA.norm(pos)
-        normVector = [x / normPos for x in pos]
-        pos1 = position[0] + self.max_velocity*normVector[0]*0.08
-        pos2 = position[1] + self.max_velocity*normVector[1]*0.08
-
-        return (pos1,pos2)
 
     def get_direction(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
