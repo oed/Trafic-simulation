@@ -25,6 +25,9 @@ class TraficSimulator():
         self.cars_per_second = NUMBER_OF_CARS / 3600.
         self.spawn_timer = self.cars_per_second
         
+        self.transientTime=200
+        self.car_exit_times=[]
+        
         self.spawn_pedrestian_timer = 0.05
         self.spawn_pedrestian_interval=3600/700
 
@@ -71,7 +74,13 @@ class TraficSimulator():
                     vehicle.update(self.vehicle_list, self.time_interval)
             for vehicle in self.vehicle_list:
                 if not vehicle.active:
+                    if vehicle.vehicle_type == "Car":
+                        self.car_exit_times.append(self.total_elapsed_time)
                     self.vehicle_list.remove(vehicle)
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_s:
+                        savedata()
             
             self.draw()
             self.total_elapsed_time+=self.time_interval
@@ -90,9 +99,14 @@ class TraficSimulator():
         #    road.Draw(self.screen, pygame)
         #for road in self.pedrestianroad_list:
         #    road.Draw(self.screen, pygame)
-        for vehicle in self.vehicle_list:
-            vehicle.draw(self.screen, pygame)
+        #for vehicle in self.vehicle_list:
+        #    vehicle.draw(self.screen, pygame)
         pygame.display.flip()
+        
+    def savedata(self):
+        f = open('exit_data.data','w')
+        pickle.dump(self.car_exit_times)
+        f.close()
 
 
 if __name__ == '__main__':
