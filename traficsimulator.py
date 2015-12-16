@@ -13,6 +13,7 @@ import random
 
 BLACK = (0, 0, 0)
 NUMBER_OF_CARS = 3280
+DRAW_INTERVAL = 50
 
 
 class TraficSimulator():
@@ -25,10 +26,10 @@ class TraficSimulator():
         self.total_elapsed_time=0
         self.cars_per_second = NUMBER_OF_CARS / 3600.
         self.spawn_timer = self.cars_per_second
-        
+
         self.transientTime=200
         self.car_exit_times=[]
-        
+
         self.spawn_pedrestian_timer = 0.05
         self.spawn_pedrestian_interval=3600/700
 
@@ -42,12 +43,13 @@ class TraficSimulator():
         p1=0.40
         p2=0.20
         p3=0.40
-        
+
         self.PedrestianSpawnRates=[p1/6,p1/6,p1/6,p1/6,p1/6,p1/6,p2/4,p2/4,p2/4,p2/4,p3/2,p3/2]
         self.PedrestianSpawnRates=utils.CumSum(self.PedrestianSpawnRates)
         self.pedrestianroad_list= pedrestianroad.LoadNodesFromFile()
 
     def start_simulation(self):
+        draw_counter = 0
         while 1:
             self.spawn_timer -= self.time_interval
             self.spawn_pedrestian_timer -= self.time_interval
@@ -84,28 +86,30 @@ class TraficSimulator():
                     if event.key == pygame.K_s:
                         print "SAVED SUCCESFULLY! (@0.0)@"
                         self.savedata()
-            
-            self.draw()
+            draw_counter += 1
+            if (draw_counter == DRAW_INTERVAL):
+                self.draw()
+                draw_counter = 0
             self.total_elapsed_time+=self.time_interval
             #pygame.time.wait(int(self.time_interval * 1000))
 
     def draw(self):
         self.screen.fill(BLACK)
-        #self.screen.blit(self.img, [0, 0])
+        self.screen.blit(self.img, [0, 0])
         text = self.font.render("Time elapsed: %s" % self.total_elapsed_time, 1, (255, 255, 255))
         self.screen.blit(text, [10, 10])
         #self.road.Draw(self.screen, pygame)
         #for road in self.busroad_list:
-        #    road.Draw(self.screen, pygame)
+            #road.Draw(self.screen, pygame)
         #self.road.Draw(self.screen, pygame)
         #for road in self.busroad_list:
-        #    road.Draw(self.screen, pygame)
+            #road.Draw(self.screen, pygame)
         #for road in self.pedrestianroad_list:
-        #    road.Draw(self.screen, pygame)
-        #for vehicle in self.vehicle_list:
-        #    vehicle.draw(self.screen, pygame)
+            #road.Draw(self.screen, pygame)
+        for vehicle in self.vehicle_list:
+            vehicle.draw(self.screen, pygame)
         pygame.display.flip()
-        
+
     def savedata(self):
         print "Save Data"
         f = open('exit_data.data','w')
