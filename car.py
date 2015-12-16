@@ -3,11 +3,10 @@ import utils
 import random
 from vehicle import Vehicle
 
-max_velocity = utils.meterToPixel(25) #Class variable shared by all instances
-min_velocity = utils.meterToPixel(0.001)
-max_acceleration = 1000
-exit_probability = 0.5 #Set to other then 0 when Active flag is in play
-range_of_sight = utils.meterToPixel(7.5)
+max_velocity = utils.meterToPixel(20) #Class variable shared by all instances
+min_velocity = utils.meterToPixel(0.0001)
+max_acceleration = 100
+range_of_sight = utils.meterToPixel(10.0)
 vision_angle = math.pi/4
 #length=utils.meterToPixel(5)/2
 #width = utils.meterToPixel(2.2)/2

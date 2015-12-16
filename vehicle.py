@@ -1,12 +1,14 @@
 import math
 import utils
 import random
+import numpy
+from numpy import linalg as LA
 
-min_velocity = 1
-max_acceleration = 200
+min_velocity = 0
+max_acceleration = 100
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
-vision_angle = math.pi/4
-vision_angle_entrance = 3.0*math.pi/4
+vision_angle = math.pi/5
+vision_angle_entrance = math.pi/2
 
 
 class Vehicle(object):
@@ -30,17 +32,19 @@ class Vehicle(object):
 
     def update(self, vehicles, delta_t):
         acceleration = 0
+        distance = self.check_obstacles(vehicles)
 
-        if self.velocity < self.max_velocity:
+
+        if self.velocity < self.max_velocity and self.RightOfPassage == 1:
+            acceleration = self.acceleration
+        elif self.velocity < self.max_velocity and self.RightOfPassage == 0 and distance < utils.meterToPixel(10.0):
+            acceleration = 0
+        elif self.velocity < self.max_velocity and self.RightOfPassage == 0 and distance > utils.meterToPixel(10.0): 
             acceleration = self.acceleration
 
-        distance = self.check_obstacles(vehicles)
         if distance < 1000 and distance > 0:
-
-        #if self.check_obstacles(vehicles):
-
-            #velocity = min_velocity
-            acceleration = -2*(self.velocity*self.velocity)/(distance)
+            acceleration = -2.0*(self.velocity*self.velocity)/(distance)
+        
         if distance < 0:
             self.velocity = 0
 
@@ -53,9 +57,6 @@ class Vehicle(object):
             self.velocity = self.min_velocity
         elif self.velocity < 0:
             self.velocity = 0
-
-        #if self.velocity < 0:
-        #    self.velocity = 0
 
         self.update_next_node(delta_t)
 
@@ -77,9 +78,9 @@ class Vehicle(object):
                 continue
             else:
                 distance = utils.calc_distance(self.position, vehicle.position)
-                angle = abs(utils.calc_angle(self.position, vehicle.position)- self.direction)
+                angle = abs(utils.calc_angle(self.position, vehicle.position) - self.direction)
                 current_vision = self.vision_angle
-                if self.RightOfPassage == 0:
+                if self.RightOfPassage == 0 and self.velocity < 0.75*self.max_velocity and vehicle.RightOfPassage == 1:
                     current_vision = self.vision_angle_entrance
                 if distance <= self.range_of_sight and angle < current_vision:
                     stopDistance=utils.calc_stopDistance(distance,angle)-self.length*2-vehicle.length #3 times radius
@@ -87,6 +88,15 @@ class Vehicle(object):
                         minimumDistance=stopDistance
         return minimumDistance
 
+    def getNextVehiclePosition(self, position):
+        next_pos = self.road.GetNodePosition(self.nextNode)
+        pos = tuple(numpy.subtract(next_pos, position))
+        normPos = LA.norm(pos)
+        normVector = [x / normPos for x in pos]
+        pos1 = position[0] + self.max_velocity*normVector[0]*0.08
+        pos2 = position[1] + self.max_velocity*normVector[1]*0.08
+
+        return (pos1,pos2)
 
     def get_direction(self):
         next_pos = self.road.GetNodePosition(self.nextNode)
