@@ -54,7 +54,8 @@ class PedrestianRoad(object):
         return -1    
 
     def Draw(self, screen, pygame):
-        pygame.draw.line(screen,(125,125,125),self.roads[0],self.roads[1],roadWidth)
+        for x in range(0,len(self.roads)-1):
+            pygame.draw.line(screen,(0,0,0),self.roads[x],self.roads[x+1],roadWidth)
 
     def GetNodePosition(self,node):
         return self.roads[node]

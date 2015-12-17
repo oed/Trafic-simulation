@@ -38,6 +38,7 @@ class TraficSimulator():
         self.vehicle_list = []
         self.busroad_list = busroad.LoadNodesFromFile(bus_map_file)
         self.BusSpawnRates=[18, 21, 35, 25, 61,49];
+        self.BusSpawnRates=[3600, 21, 35, 25, 61,49];
         self.BusSpawnRates=list(map(lambda x: 3600.0/x, self.BusSpawnRates))
         p1=0.40
         p2=0.20
@@ -91,19 +92,19 @@ class TraficSimulator():
 
     def draw(self):
         self.screen.fill(BLACK)
-        #self.screen.blit(self.img, [0, 0])
+        self.screen.blit(self.img, [0, 0])
         text = self.font.render("Time elapsed: %s" % self.total_elapsed_time, 1, (255, 255, 255))
         self.screen.blit(text, [10, 10])
-        #self.road.Draw(self.screen, pygame)
-        #for road in self.busroad_list:
-        #    road.Draw(self.screen, pygame)
-        #self.road.Draw(self.screen, pygame)
-        #for road in self.busroad_list:
-        #    road.Draw(self.screen, pygame)
-        #for road in self.pedrestianroad_list:
-        #    road.Draw(self.screen, pygame)
-        #for vehicle in self.vehicle_list:
-        #    vehicle.draw(self.screen, pygame)
+        self.road.Draw(self.screen, pygame)
+        for road in self.busroad_list:
+           road.Draw(self.screen, pygame)
+        self.road.Draw(self.screen, pygame)
+        for road in self.busroad_list:
+           road.Draw(self.screen, pygame)
+        for road in self.pedrestianroad_list:
+           road.Draw(self.screen, pygame)
+        for vehicle in self.vehicle_list:
+           vehicle.draw(self.screen, pygame)
         pygame.display.flip()
         
     def savedata(self):

@@ -56,4 +56,4 @@ class Bus(Vehicle):
                 self.active=False
 
     def draw(self, screen, pygame):
-        super(Bus, self).draw(screen, pygame, (0, 0, 255), self.length, self.width)
+        super(Bus, self).draw(screen, pygame, (32, 108, 170), self.length, self.width)
