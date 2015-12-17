@@ -112,7 +112,7 @@ class TraficSimulator():
             
             self.total_elapsed_time+=self.time_interval
             
-            if self.total_elapsed_time >= 3600 + self.transientTime:
+            if self.total_elapsed_time >= 10000 + self.transientTime:
                 self.savedata()
                 sys.exit()
                 #(self.car_queues[0],self.car_queues[1],self.car_queues[2],self.car_queues[3])
