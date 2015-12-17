@@ -110,14 +110,14 @@ class TraficSimulator():
         self.screen.blit(self.img, [0, 0])
         text = self.font.render("Time elapsed: %s" % self.total_elapsed_time, 1, (255, 255, 255))
         self.screen.blit(text, [10, 10])
-        #self.road.Draw(self.screen, pygame)
-        #for road in self.busroad_list:
-            #road.Draw(self.screen, pygame)
-        #self.road.Draw(self.screen, pygame)
-        #for road in self.busroad_list:
-            #road.Draw(self.screen, pygame)
-        #for road in self.pedrestianroad_list:
-            #road.Draw(self.screen, pygame)
+        self.road.Draw(self.screen, pygame)
+        for road in self.busroad_list:
+            road.Draw(self.screen, pygame)
+        self.road.Draw(self.screen, pygame)
+        for road in self.busroad_list:
+            road.Draw(self.screen, pygame)
+        for road in self.pedrestianroad_list:
+            road.Draw(self.screen, pygame)
         for vehicle in self.vehicle_list:
             vehicle.draw(self.screen, pygame)
         self.display_queues()

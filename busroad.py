@@ -41,7 +41,7 @@ class BusRoad(object):
         self.roads = roads
 
     def Draw(self, screen, pygame):
-        pygame.draw.line(screen,(125,125,125),self.roads[0],self.roads[1],roadWidth)
+        pygame.draw.line(screen,(125,125,200),self.roads[0],self.roads[1],roadWidth)
 
     def GetNextNode(self,node):
         if node < len(self.roads)-1:
