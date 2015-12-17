@@ -12,7 +12,7 @@ import utils
 import random
 
 BLACK = (0, 0, 0)
-NUMBER_OF_CARS = 3280
+NUMBER_OF_CARS = 2850
 DRAW_INTERVAL = 1000000000
 
 
@@ -35,7 +35,7 @@ class TraficSimulator():
         self.spawn_pedrestian_timer = 0.05
         self.spawn_pedrestian_interval=3600/700
 
-        self.screen = pygame.display.set_mode(size)
+        #self.screen = pygame.display.set_mode(size)
         self.time_interval = 0.016
         self.road = Road(map_file)
         self.vehicle_list = []
@@ -103,16 +103,16 @@ class TraficSimulator():
                 #    if event.key == pygame.K_s:
                 #        print "SAVED SUCCESFULLY! (@0.0)@"
                 #        self.savedata()
-            
+
             draw_counter += 1
-            
+
             if (draw_counter == DRAW_INTERVAL):
                 self.draw()
                 draw_counter = 0
-            
+
             self.total_elapsed_time+=self.time_interval
-            
-            if self.total_elapsed_time >= 10000 + self.transientTime:
+
+            if self.total_elapsed_time >= 5000 + self.transientTime:
                 self.savedata()
                 sys.exit()
                 #(self.car_queues[0],self.car_queues[1],self.car_queues[2],self.car_queues[3])
@@ -151,7 +151,7 @@ class TraficSimulator():
         #f = open('exit_data.data','w')
         #pickle.dump(self.car_exit_times, f)
         #f.close()
-        g = open('que_data3280.data','w')
+        g = open('que_data2850.data','w')
         pickle.dump(self.que_time_in_time, g)
         g.close()
 
