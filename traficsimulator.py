@@ -35,7 +35,7 @@ class TraficSimulator():
         self.spawn_pedrestian_timer = 0.05
         self.spawn_pedrestian_interval=3600/700
 
-        self.screen = pygame.display.set_mode(size)
+        #self.screen = pygame.display.set_mode(size)
         self.time_interval = 0.016
         self.road = Road(map_file)
         self.vehicle_list = []
@@ -81,7 +81,7 @@ class TraficSimulator():
         draw_counter = 0
         while 1:
             self.spawn_cars()
-            #self.spawn_pedestrian()
+            self.spawn_pedestrian()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
@@ -103,15 +103,15 @@ class TraficSimulator():
                 #    if event.key == pygame.K_s:
                 #        print "SAVED SUCCESFULLY! (@0.0)@"
                 #        self.savedata()
-            
+
             draw_counter += 1
-            
+
             if (draw_counter == DRAW_INTERVAL):
                 self.draw()
                 draw_counter = 0
-            
+
             self.total_elapsed_time+=self.time_interval
-            
+
             if self.total_elapsed_time >= 5000 + self.transientTime:
                 self.savedata()
                 sys.exit()
@@ -151,7 +151,7 @@ class TraficSimulator():
         #f = open('exit_data.data','w')
         #pickle.dump(self.car_exit_times, f)
         #f.close()
-        g = open('que_data2950.data','w')
+        g = open('que_data%s.data' % NUMBER_OF_CARS,'w')
         pickle.dump(self.que_time_in_time, g)
         g.close()
 
