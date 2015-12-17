@@ -81,7 +81,7 @@ class TraficSimulator():
         draw_counter = 0
         while 1:
             self.spawn_cars()
-            self.spawn_pedestrian()
+            #self.spawn_pedestrian()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
