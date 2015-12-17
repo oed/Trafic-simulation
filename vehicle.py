@@ -2,7 +2,6 @@ import math
 import utils
 import random
 
-min_velocity = 0
 max_acceleration = 100
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
 vision_angle = math.pi/5
