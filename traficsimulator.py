@@ -40,7 +40,6 @@ class TraficSimulator():
         self.car_queues = [0]*self.road.GetNEntrances()
         self.busroad_list = busroad.LoadNodesFromFile(bus_map_file)
         self.BusSpawnRates=[18, 21, 35, 25, 61,49];
-        self.BusSpawnRates=[3600, 21, 35, 25, 61,49];
         self.BusSpawnRates=list(map(lambda x: 3600.0/x, self.BusSpawnRates))
         p1=0.40
         p2=0.20
