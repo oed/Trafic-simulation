@@ -5,7 +5,7 @@ from vehicle import Vehicle
 
 max_velocity = utils.meterToPixel(25)  # Class variable shared by all instances
 min_velocity = 0
-max_acceleration = 200
+max_acceleration = utils.meterToPixel(20)
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
 vision_angle = math.pi/10
 stop_time = 20

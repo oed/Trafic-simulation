@@ -2,7 +2,7 @@ import math
 import utils
 import random
 
-max_acceleration = utils.meterToPixel(35)
+max_acceleration = utils.meterToPixel(20)
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
 vision_angle = math.pi/5
 vision_angle_entrance = math.pi/2
