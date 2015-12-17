@@ -13,7 +13,7 @@ import random
 
 BLACK = (0, 0, 0)
 NUMBER_OF_CARS = 3280
-DRAW_INTERVAL = 50
+DRAW_INTERVAL = 1000000000
 
 
 class TraficSimulator():
@@ -24,11 +24,13 @@ class TraficSimulator():
         self.img = pygame.image.load('korsvagen2.png')
         self.font = pygame.font.Font(None, 35)
         self.total_elapsed_time=0
-        self.cars_per_second = NUMBER_OF_CARS / 3600.
+        self.cars_per_second = 3600. / NUMBER_OF_CARS
         self.spawn_timer = self.cars_per_second
 
-        self.transientTime=200
+        self.transientTime=0
         self.car_exit_times=[]
+
+        self.que_time_in_time = []
 
         self.spawn_pedrestian_timer = 0.05
         self.spawn_pedrestian_interval=3600/700
@@ -39,7 +41,7 @@ class TraficSimulator():
         self.vehicle_list = []
         self.car_queues = [0]*self.road.GetNEntrances()
         self.busroad_list = busroad.LoadNodesFromFile(bus_map_file)
-        self.BusSpawnRates=[18, 21, 35, 25, 61,49];
+        self.BusSpawnRates=[18, 21, 35, 25, 61, 49];
         self.BusSpawnRates=list(map(lambda x: 3600.0/x, self.BusSpawnRates))
         p1=0.40
         p2=0.20
@@ -61,6 +63,9 @@ class TraficSimulator():
                 if newCar.valid_spawn(self.vehicle_list):
                     self.vehicle_list.append(newCar)
                     self.car_queues[i] -= 1
+
+        if  self.total_elapsed_time > self.transientTime:
+            self.que_time_in_time.append((list(self.car_queues), self.total_elapsed_time - self.transientTime))
 
     def spawn_pedestrian(self):
         self.spawn_pedrestian_timer -= self.time_interval
@@ -92,17 +97,25 @@ class TraficSimulator():
                     if vehicle.vehicle_type == "Car":
                         self.car_exit_times.append(self.total_elapsed_time)
                     self.vehicle_list.remove(vehicle)
-            for event in pygame.event.get():
+            #for event in pygame.event.get():
                 #print "Event occured"
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_s:
-                        print "SAVED SUCCESFULLY! (@0.0)@"
-                        self.savedata()
+                #if event.type == pygame.KEYDOWN:
+                #    if event.key == pygame.K_s:
+                #        print "SAVED SUCCESFULLY! (@0.0)@"
+                #        self.savedata()
+            
             draw_counter += 1
+            
             if (draw_counter == DRAW_INTERVAL):
                 self.draw()
                 draw_counter = 0
+            
             self.total_elapsed_time+=self.time_interval
+            
+            if self.total_elapsed_time >= 3600 + self.transientTime:
+                self.savedata()
+                sys.exit()
+                #(self.car_queues[0],self.car_queues[1],self.car_queues[2],self.car_queues[3])
             #pygame.time.wait(int(self.time_interval * 1000))
 
     def draw(self):
@@ -135,9 +148,12 @@ class TraficSimulator():
 
     def savedata(self):
         print "Save Data"
-        f = open('exit_data.data','w')
-        pickle.dump(self.car_exit_times, f)
-        f.close()
+        #f = open('exit_data.data','w')
+        #pickle.dump(self.car_exit_times, f)
+        #f.close()
+        g = open('que_data3280.data','w')
+        pickle.dump(self.que_time_in_time, g)
+        g.close()
 
 
 if __name__ == '__main__':

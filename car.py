@@ -3,9 +3,9 @@ import utils
 import random
 from vehicle import Vehicle
 
-max_velocity = utils.meterToPixel(20) #Class variable shared by all instances
+max_velocity = utils.meterToPixel(25) #Class variable shared by all instances
 min_velocity = utils.meterToPixel(0.0001)
-max_acceleration = 100
+max_acceleration = utils.meterToPixel(30)
 range_of_sight = utils.meterToPixel(10.0)
 vision_angle = math.pi/4
 #length=utils.meterToPixel(5)/2

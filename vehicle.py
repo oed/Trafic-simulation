@@ -2,7 +2,7 @@ import math
 import utils
 import random
 
-max_acceleration = 100
+max_acceleration = utils.meterToPixel(35)
 exit_probability = 0.25  # Set to other then 0 when Active flag is in play
 vision_angle = math.pi/5
 vision_angle_entrance = math.pi/2
@@ -65,7 +65,7 @@ class Vehicle(object):
     def check_obstacles(self, vehicles):
         minimumDistance = 1000;
         for vehicle in vehicles:
-            if self.vehicle_type == "Pedrestian" and vehicle.vehicle_type == "Pedrestian":
+            if self.vehicle_type == "Pedrestian": #and vehicle.vehicle_type == "Pedrestian":
                 continue
             elif vehicle.RightOfPassage==0 and self.RightOfPassage ==1 and self.vehicle_type != "Pedrestian":
                 # The vehicle doesn't have right of passage (not in roundabout)
