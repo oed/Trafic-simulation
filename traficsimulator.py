@@ -10,10 +10,13 @@ import busroad
 import pedrestianroad
 import utils
 import random
+import math
 
 BLACK = (0, 0, 0)
-NUMBER_OF_CARS = 2950
-DRAW_INTERVAL = 1000000000
+NUMBER_OF_CARS = 2810
+INITIAL_NUMBERS = 10000
+NUMBERS_OF_PEDESTRIANS = 700
+DRAW_INTERVAL = 1000000000000
 
 
 class TraficSimulator():
@@ -27,13 +30,15 @@ class TraficSimulator():
         self.cars_per_second = 3600. / NUMBER_OF_CARS
         self.spawn_timer = self.cars_per_second
 
-        self.transientTime=0
+        self.transientTime=63
         self.car_exit_times=[]
 
         self.que_time_in_time = []
+        #self.ped_freq = []
+        #self.bus_freq = []
 
         self.spawn_pedrestian_timer = 0.05
-        self.spawn_pedrestian_interval=3600/700
+        self.spawn_pedrestian_interval=3600/ NUMBERS_OF_PEDESTRIANS
 
         #self.screen = pygame.display.set_mode(size)
         self.time_interval = 0.016
@@ -42,7 +47,8 @@ class TraficSimulator():
         self.car_queues = [0]*self.road.GetNEntrances()
         self.busroad_list = busroad.LoadNodesFromFile(bus_map_file)
         self.BusSpawnRates=[18, 21, 35, 25, 61, 49];
-        self.BusSpawnRates=list(map(lambda x: 3600.0/x, self.BusSpawnRates))
+        #[18, 21, 35, 25, 61, 49];
+        self.BusSpawnRates=list(map(lambda x: 3600.0/(x*0.92), self.BusSpawnRates))
         p1=0.40
         p2=0.20
         p3=0.40
@@ -64,8 +70,6 @@ class TraficSimulator():
                     self.vehicle_list.append(newCar)
                     self.car_queues[i] -= 1
 
-        if  self.total_elapsed_time > self.transientTime:
-            self.que_time_in_time.append((list(self.car_queues), self.total_elapsed_time - self.transientTime))
 
     def spawn_pedestrian(self):
         self.spawn_pedrestian_timer -= self.time_interval
@@ -74,21 +78,30 @@ class TraficSimulator():
             for x in range(0, len(self.pedrestianroad_list)):
                 if r < self.PedrestianSpawnRates[x]:
                     self.vehicle_list.append(Pedrestian(self.pedrestianroad_list[x]))
+            #        self.ped_freq.append(self.total_elapsed_time - self.transientTime)
                     break
             self.spawn_pedrestian_timer=self.spawn_pedrestian_interval
 
     def start_simulation(self):
         draw_counter = 0
+        prevsec = 0
         while 1:
+            if self.total_elapsed_time < self.transientTime:
+                self.cars_per_second = 3600. / INITIAL_NUMBERS
+            else:
+                self.cars_per_second = 3600. / NUMBER_OF_CARS
             self.spawn_cars()
             self.spawn_pedestrian()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
+
             for x in range(0, len(self.busroad_list)):
                 if self.total_elapsed_time > 2*self.time_interval:
                     if self.total_elapsed_time % self.BusSpawnRates[x] < self.time_interval:
                         self.vehicle_list.append(Bus(self.busroad_list[x]))
+                        #self.bus_freq.append(self.total_elapsed_time - self.transientTime)
+
             for vehicle in self.vehicle_list:
                 if vehicle.active:
                     vehicle.update(self.vehicle_list, self.time_interval)
@@ -117,20 +130,25 @@ class TraficSimulator():
                 sys.exit()
                 #(self.car_queues[0],self.car_queues[1],self.car_queues[2],self.car_queues[3])
             #pygame.time.wait(int(self.time_interval * 1000))
+            if self.total_elapsed_time >= self.transientTime:
+                print self.total_elapsed_time
+                if prevsec - math.floor(self.total_elapsed_time) < 0:
+                    prevsec = math.floor(self.total_elapsed_time)
+                    self.que_time_in_time.append((list(self.car_queues), self.total_elapsed_time - self.transientTime))
 
     def draw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.img, [0, 0])
         text = self.font.render("Time elapsed: %s" % self.total_elapsed_time, 1, (255, 255, 255))
         self.screen.blit(text, [10, 10])
-        self.road.Draw(self.screen, pygame)
-        for road in self.busroad_list:
-            road.Draw(self.screen, pygame)
-        self.road.Draw(self.screen, pygame)
-        for road in self.busroad_list:
-            road.Draw(self.screen, pygame)
-        for road in self.pedrestianroad_list:
-            road.Draw(self.screen, pygame)
+        #self.road.Draw(self.screen, pygame)
+        #for road in self.busroad_list:
+        #    road.Draw(self.screen, pygame)
+        #self.road.Draw(self.screen, pygame)
+        #for road in self.busroad_list:
+        #    road.Draw(self.screen, pygame)
+        #for road in self.pedrestianroad_list:
+        #    road.Draw(self.screen, pygame)
         for vehicle in self.vehicle_list:
             vehicle.draw(self.screen, pygame)
         self.display_queues()
@@ -147,10 +165,15 @@ class TraficSimulator():
         self.screen.blit(text, [551, 541])
 
     def savedata(self):
-        print "Save Data"
-        #f = open('exit_data.data','w')
-        #pickle.dump(self.car_exit_times, f)
+        print "Save Data"        
+        #f = open('ped_freq.data','w')
+        #pickle.dump(self.ped_freq, f)
         #f.close()
+        #h = open('bus_freq.data','w')
+        #pickle.dump(self.bus_freq, h)
+        #h.close()
+        #NUMBER_OF_CARS
+        #NUMBERS_OF_PEDESTRIANS
         g = open('que_data%s.data' % NUMBER_OF_CARS,'w')
         pickle.dump(self.que_time_in_time, g)
         g.close()
